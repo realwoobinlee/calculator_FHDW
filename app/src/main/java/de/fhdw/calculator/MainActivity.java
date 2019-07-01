@@ -14,6 +14,8 @@ import org.mariuszgromada.math.mxparser.*;
 
 import de.fhdw.shared.InternalStorage;
 import de.fhdw.shared.InternalStorage.*;
+import de.fhdw.shared.LayoutFormat;
+import de.fhdw.shared.LayoutFormat.*;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -54,29 +56,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         InternalStorage internalStorage = new InternalStorage();
 
         switch (v.getId()) {
+            /*
+            {
+                ID: Int serial(Unique) (0 - 69),
+                    Column: Int,
+                    Row: int,
+                ColumnWeight: Int(1-10),
+                        RowWeight: Int(1-7),
+                    Value: String ex) "+", "-", "1", "2", "Output", "Graph"
+            }
+            */
             case R.id.exbutton1:
                 try {
-                    JSONArray test = new JSONArray("[{hallo: '1'}, {hallo:'2'}]");
-                    //Log.d("LOGTEXT",test.get(0).toString());
-                    internalStorage.writeJSONFile(this,"test.json",test);
-                    if(internalStorage.isFilePresent(this,"test.json")) {
-                        Log.d("LOGTEXT", "test.json exists");
-                    } else {
-                        Log.d("LOGTEXT", "test.json does not exist");
+                    JSONArray test = new JSONArray("[{ID: 1, Column:0, Row: 1, ColumnWeight:1, RowWeight: 1, Value:'+'}]");
+                    LayoutFormat testlf = new LayoutFormat(test);
+                    for(int i = 0; i < 7; i++) {
+                        for(int j = 0; j < 10; j++) {
+
+                            Log.d("LOGTEXT",String.valueOf(testlf.GridlayoutFormat[i][j]));
+                            if(i==6 && j==9) {
+                                Log.d("LOGTEXT","hallo" + String.valueOf(testlf.GridlayoutFormat[i][j]));
+                            }
+
+                        }
                     }
+
+                    Log.d("LOGTEXT",testlf.MapIDValue.values().toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 break;
             case R.id.exbutton2:
-                JSONArray test2 = internalStorage.readJSONFile(this,"test.json");
-                Log.d("LOGTEXT",test2.toString());
-                internalStorage.deleteFile(this,"test.json");
-                if(internalStorage.isFilePresent(this,"test.json")) {
-                    Log.d("LOGTEXT", "test.json exists");
-                } else {
-                    Log.d("LOGTEXT", "test.json does not exist");
-                }
+                Function f = new Function("At(x) = x^2-2x-8");
+                Argument a1 = new Argument("x=0");
+
                 break;
         }
 
