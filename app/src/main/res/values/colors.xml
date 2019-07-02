@@ -3,4 +3,11 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+    <color name="operator">#F0B512</color>
+    <color name="constant">#FFFFFF</color>
+    <color name="specialoperator">#AFAFAF</color>
+    <color name="view">#3A3D43</color>
+    <color name="resultborder">#005B98</color>
+    <color name="error">#B20000</color>
 </resources>
