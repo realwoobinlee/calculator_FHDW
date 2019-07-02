@@ -7,7 +7,7 @@
     <color name="operator">#F0B512</color>
     <color name="constant">#FFFFFF</color>
     <color name="specialoperator">#AFAFAF</color>
-    <color name="view">#AFAFAF</color>
+    <color name="view">#3A3D43</color>
     <color name="resultborder">#005B98</color>
     <color name="error">#B20000</color>
 </resources>
