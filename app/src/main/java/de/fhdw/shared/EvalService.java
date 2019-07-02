@@ -2,11 +2,9 @@ package de.fhdw.shared;
 
 import org.mariuszgromada.math.mxparser.*;
 
-
-
 public class EvalService {
-    public static String functionname(String parameter) {
-        Expression e = new Expression("2+3");
+    public static String calculateEquation (String equation) {
+        Expression e = new Expression(equation);
         return String.valueOf(e.calculate());
     }
     // 0 =  x^2 - 2x -8
