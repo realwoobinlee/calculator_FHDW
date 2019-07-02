@@ -12,8 +12,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.mariuszgromada.math.mxparser.*;
 
+import de.fhdw.shared.EvalService;
 import de.fhdw.shared.InternalStorage;
 import de.fhdw.shared.InternalStorage.*;
+import de.fhdw.shared.EvalService.*;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -55,18 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         switch (v.getId()) {
             case R.id.exbutton1:
-                try {
-                    JSONArray test = new JSONArray("[{hallo: '1'}, {hallo:'2'}]");
-                    //Log.d("LOGTEXT",test.get(0).toString());
-                    internalStorage.writeJSONFile(this,"test.json",test);
-                    if(internalStorage.isFilePresent(this,"test.json")) {
-                        Log.d("LOGTEXT", "test.json exists");
-                    } else {
-                        Log.d("LOGTEXT", "test.json does not exist");
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                Log.d("LOGTEXT",EvalService.calculateEquation("5/9"));
                 break;
             case R.id.exbutton2:
                 JSONArray test2 = internalStorage.readJSONFile(this,"test.json");
