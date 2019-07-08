@@ -18,7 +18,7 @@ public class Tilecolormanager {
         if (usage == "/" ||
                 usage =="*"||
                 usage =="-"||
-                usage =="+"||
+                usage.equals("+")||
                 usage =="="||
                 usage =="sqr"||
                 usage =="vector"||

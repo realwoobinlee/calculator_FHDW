@@ -1,11 +1,13 @@
 package de.fhdw.shared;
 
 import android.content.Context;
+import android.renderscript.Element;
 import android.renderscript.ScriptGroup;
 import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -23,8 +25,8 @@ public class InternalStorage {
     //HashMap key: Long(Position) Values: String(Size ex. 1:3), String(Value ex.'+', 'output'
     /* JSON
         {
-            position: int,
-            size: String(ex. 1:3),
+            sizex: int,
+            sizey: String(ex. 1:3),
             value: String ex) "+", "-", "1", "2", "Output", "Graph"
         }
      */
@@ -34,6 +36,44 @@ public class InternalStorage {
         String path = context.getFilesDir().getAbsolutePath() + "/" + FileName;
         File file = new File(path);
         return file.exists();
+    }
+
+    // convert String[][] into JsonArray
+    public JSONArray ConvertToJsonArray(String[][] dataset, String[] ElementNames) {
+        JSONArray result = new JSONArray();
+        if(dataset[0].length == ElementNames.length) {
+            for (String[] datas: dataset) {
+                JSONObject jsonObject = new JSONObject();
+                for (int i=0;i<ElementNames.length;i++) {
+                    try {
+                        jsonObject.put(ElementNames[i],datas[i]);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                result.put(jsonObject);
+            }
+        }
+        return result;
+    }
+
+    //convert JSONArray to String[][]
+    public String[][] ConvertToStringArrayArray(JSONArray jsonarray, String[] ElementNames) {
+        String[][] result = new String[jsonarray.length()][ElementNames.length];
+        for(int i=0;i<jsonarray.length();i++) {
+            JSONObject jsonobject = null;
+            try {
+                jsonobject = jsonarray.getJSONObject(i);
+                String[] part = new String[ElementNames.length];
+                for(int j=0;j<ElementNames.length;j++) {
+                    part[j] = jsonobject.getString(ElementNames[j]);
+                }
+                result[i] = part;
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
     }
 
     // it returns true if deleted, otherwise false when the file is not found or not deleted

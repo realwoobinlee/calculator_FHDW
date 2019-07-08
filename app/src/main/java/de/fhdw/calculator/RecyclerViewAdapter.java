@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.provider.ContactsContract;
+import android.service.autofill.Dataset;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,23 +22,28 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
 
     private static int TYPE_NORMALCARD = 0;
     private static int TYPE_OUTPUTCARD = 1;
-    public boolean[] clickedItems = new boolean[70];
-
-    public RecyclerViewAdapter() {
-        Arrays.fill(clickedItems,false);
-    }
 
     // HashMap key: Long(Position) Values: String(Size ex. 1:3), String(Value ex.'+', 'output'
     //public HashMap<Long,String[]> MapPosSizeVal = new HashMap<Long,String[]>();
     public ArrayList<String[]> DataSet = new ArrayList<String[]>();
+    public String[][] PosSizeVal;
 
     //must be tested!!!
-    public RecyclerViewAdapter(String[][] PosValSize) {
+    public RecyclerViewAdapter(String[][] possizeval) {
         //Value,Size(2:2)
-        for(int i = 0; i < PosValSize.length; i++) {
-            DataSet.add(PosValSize[i]);
+        PosSizeVal = possizeval;
+        for(int i = 0; i < PosSizeVal.length; i++) {
+            DataSet.add(PosSizeVal[i]);
         }
         setHasStableIds(true);
+    }
+
+    public void setPosSizeVal(String[][] possizeval) {
+        PosSizeVal = possizeval;
+        DataSet.clear();
+        for(int i = 0; i < PosSizeVal.length; i++) {
+            DataSet.add(PosSizeVal[i]);
+        }
     }
 
     @Override
@@ -60,7 +66,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolder recyclerViewHolder, final int position) {
-        String value = DataSet.get(position)[2];
+        String value = DataSet.get(position)[2].toString();
+        Log.d("LOGTEXT","onBincView:" + value);
 
         if(getItemViewType(position) == TYPE_NORMALCARD) {
             ((RecyclerViewHolder) recyclerViewHolder).setValueInTextView(value);
@@ -74,7 +81,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
         recyclerViewHolder.mTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickedItems[position] = !clickedItems[position];
             }
         });
     }
