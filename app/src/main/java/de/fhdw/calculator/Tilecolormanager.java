@@ -15,49 +15,49 @@ public class Tilecolormanager {
             numeric = false;
         }
 
-        if (usage == "/" ||
-                usage =="*"||
-                usage =="-"||
+        if (usage.equals("/")||
+                usage.equals("*")||
+                usage.equals("-")||
                 usage.equals("+")||
-                usage =="="||
-                usage =="sqr"||
-                usage =="vector"||
-                usage =="prime"||
-                usage =="ln"||
-                usage =="xsqr"||
-                usage =="sin"||
-                usage =="cos"||
-                usage =="tan"||
+                usage.equals("=")||
+                usage.equals("sqr")||
+                usage.equals("vector")||
+                usage.equals("prime")||
+                usage.equals("ln")||
+                usage.equals("xsqr")||
+                usage.equals("sin")||
+                usage.equals("cos")||
+                usage.equals("tan")||
 
-                usage =="log"||
-                usage =="log10"||
-                usage =="Summe"||
-                usage =="seq()"||
-                usage =="summenprodukt"||
-                usage =="bin"
+                usage.equals("log")||
+                usage.equals("log10")||
+                usage.equals("Summe")||
+                usage.equals("seq()")||
+                usage.equals("summenprodukt")||
+                usage.equals("bin")
         ){
             return R.color.operator;
         }
         if (numeric == true ||
-                usage == ","||
-                usage == "^"||
-                usage == "("||
-                usage == ")"||
-                usage == "i"||
-                usage == "e"||
-                usage == "c"||
-                usage == "pi"||
-                usage == "y"||
-                usage == "x"||
-                usage == "electronm"||
-                usage == "electronc"||
-                usage == "") {
+                usage.equals(",") ||
+                usage.equals("^") ||
+                usage.equals("(")||
+                usage.equals(")")||
+                usage.equals("i")||
+                usage.equals("e")||
+                usage.equals("c")||
+                usage.equals("pi")||
+                usage.equals("y")||
+                usage.equals("x")||
+                usage.equals("electronm")||
+                usage.equals("electronc")||
+                usage.equals("")) {
             return R.color.constant;
         }
-        if (usage =="view"){
+        if (usage.equals("view")){
             return R.color.view;
         }
-        if(usage =="AC"||usage=="+/-"||usage=="%"){
+        if(usage.equals("AC")||usage.equals("+/-")||usage.equals("%")){
            return R.color.specialoperator;
         }
         else {
