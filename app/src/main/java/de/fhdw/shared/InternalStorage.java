@@ -20,13 +20,12 @@ import java.util.ArrayList;
 public class InternalStorage {
 
     public ArrayList<String> ERROR = new ArrayList<>();
+    //HashMap key: Long(Position) Values: String(Size ex. 1:3), String(Value ex.'+', 'output'
     /* JSON
         {
-            Column: Int,
-            Row: int,
-            ColumnWeight: Int(1-10),
-            RowWeight: Int(1-7),
-            Value: String ex) "+", "-", "1", "2", "Output", "Graph"
+            position: int,
+            size: String(ex. 1:3),
+            value: String ex) "+", "-", "1", "2", "Output", "Graph"
         }
      */
 

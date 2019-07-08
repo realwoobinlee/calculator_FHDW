@@ -20,6 +20,7 @@ import de.fhdw.shared.InternalStorage;
 import de.fhdw.shared.InternalStorage.*;
 import de.fhdw.shared.LayoutFormat;
 import de.fhdw.shared.LayoutFormat.*;
+import kotlin.jvm.functions.Function1;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     void _init() {
+        String[][] dataset = {{"1","2","+"},{"2","1","+"},{"3","1","view"}};
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         spannedGridLayoutManager = new SpannedGridLayoutManager(
                 SpannedGridLayoutManager.Orientation.VERTICAL, 10);
@@ -45,7 +47,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Space Decorator
         mRecyclerView.addItemDecoration(spaceItemDecorator);
         //mRecyclerView.addOnItemTouchListener();
-        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter();
+        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(dataset);
+        spannedGridLayoutManager.setSpanSizeLookup(new SpannedGridLayoutManager.SpanSizeLookup(new Function1<Integer, SpanSize>() {
+            @Override
+            public SpanSize invoke(Integer position) {
+                if(position == 0) {
+                    return new SpanSize(2,2);
+                }
+                return new SpanSize(1,1);
+            }
+        }));
         mRecyclerView.setAdapter(recyclerViewAdapter);
     }  
 

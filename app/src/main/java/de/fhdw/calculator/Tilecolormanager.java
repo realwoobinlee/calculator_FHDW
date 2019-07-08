@@ -20,21 +20,21 @@ public class Tilecolormanager {
                 usage =="-"||
                 usage =="+"||
                 usage =="="||
-                usage =="sqr()"||
-                usage =="vector()"||
-                usage =="prime()"||
-                usage =="ln()"||
-                usage =="xsqr()"||
-                usage =="sin()"||
-                usage =="cos()"||
-                usage =="tan()"||
+                usage =="sqr"||
+                usage =="vector"||
+                usage =="prime"||
+                usage =="ln"||
+                usage =="xsqr"||
+                usage =="sin"||
+                usage =="cos"||
+                usage =="tan"||
 
-                usage =="log()"||
-                usage =="log10()"||
-                usage =="Summe()"||
+                usage =="log"||
+                usage =="log10"||
+                usage =="Summe"||
                 usage =="seq()"||
-                usage =="summenprodukt()"||
-                usage =="bin()"
+                usage =="summenprodukt"||
+                usage =="bin"
         ){
             return R.color.operator;
         }
