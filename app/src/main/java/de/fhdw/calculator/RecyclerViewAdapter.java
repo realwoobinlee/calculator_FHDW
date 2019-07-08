@@ -14,12 +14,18 @@ import android.view.ViewGroup;
 import com.arasthel.spannedgridlayoutmanager.SpannedGridLayoutManager;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
 
     private static int TYPE_NORMALCARD = 0;
     private static int TYPE_OUTPUTCARD = 1;
+    public boolean[] clickedItems = new boolean[70];
+
+    public RecyclerViewAdapter() {
+        Arrays.fill(clickedItems,false);
+    }
 
     // HashMap key: Long(Position) Values: String(Size ex. 1:3), String(Value ex.'+', 'output'
     //public HashMap<Long,String[]> MapPosSizeVal = new HashMap<Long,String[]>();
@@ -53,7 +59,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerViewHolder recyclerViewHolder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerViewHolder recyclerViewHolder, final int position) {
         String value = DataSet.get(position)[2];
 
         if(getItemViewType(position) == TYPE_NORMALCARD) {
@@ -64,6 +70,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
         Log.d("LOGTEXT",String.valueOf(Tilecolormanager.returncolor(value)));
 
         recyclerViewHolder.mTextView.setBackgroundResource(Tilecolormanager.returncolor(value));
+
+        recyclerViewHolder.mTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickedItems[position] = !clickedItems[position];
+            }
+        });
     }
 
     @Override

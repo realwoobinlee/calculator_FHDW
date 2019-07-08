@@ -47,13 +47,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Space Decorator
         mRecyclerView.addItemDecoration(spaceItemDecorator);
         //mRecyclerView.addOnItemTouchListener();
-        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(dataset);
+        final RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(dataset);
         spannedGridLayoutManager.setSpanSizeLookup(new SpannedGridLayoutManager.SpanSizeLookup(new Function1<Integer, SpanSize>() {
             @Override
             public SpanSize invoke(Integer position) {
-                if(position == 0) {
-                    return new SpanSize(2,2);
+                for (int i = 0; i < recyclerViewAdapter.clickedItems.length; i++) {
+                    if (recyclerViewAdapter.clickedItems[position] == true) {
+                        return new SpanSize(2, 2);
                 }
+            }
                 return new SpanSize(1,1);
             }
         }));
