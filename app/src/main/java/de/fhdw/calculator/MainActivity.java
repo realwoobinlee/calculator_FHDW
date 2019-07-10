@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     InternalStorage internalStorage = new InternalStorage();
     SpannedGridLayoutManager spannedGridLayoutManager;
     RecyclerViewAdapter recyclerViewAdapter;
-    String[][] fdataset = {{"1","2","+"},{"2","1","+"},{"3","1","view"}};
+    String[][] fdataset = {{"1","2","+"},{"2","1","+"},{"1","1","space"},{"3","1","view"}};
     String[] felements = {"sizex","sizey","value"};
     String[][] dataset;
     @Override
@@ -40,10 +40,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         internalStorage.writeJSONFile(this,"layoutformat.json",internalStorage.ConvertToJsonArray(fdataset,felements));
         JSONArray jarray = internalStorage.readJSONFile(this,"layoutformat.json");
-        String[][] fake = internalStorage.ConvertToStringArrayArray(jarray,
+        dataset = internalStorage.ConvertToStringArrayArray(jarray,
                 felements);
-        dataset = fake;
-        Log.i("LOGTEXT","length:"+ dataset[1][2].length());
     }
 
     @Override
@@ -75,34 +73,4 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(recyclerViewAdapter);
     }
 
-    /*
-    void _init() {
-        String[][] dataset = {{"1","2","+"},{"2","1","+"},{"3","1","view"}};
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        spannedGridLayoutManager = new SpannedGridLayoutManager(
-                SpannedGridLayoutManager.Orientation.VERTICAL, 10);
-        spannedGridLayoutManager.setItemOrderIsStable(true);
-        SpaceItemDecorator spaceItemDecorator = new SpaceItemDecorator(10,10,10,10);
-        // mRecyclerView gets LayoutManager
-        //mRecyclerView.setLayoutManager(spannedGridLayoutManager);
-        // Space Decorator
-        mRecyclerView.addItemDecoration(spaceItemDecorator);
-        //mRecyclerView.addOnItemTouchListener();
-        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(dataset);
-        spannedGridLayoutManager.setSpanSizeLookup(new SpannedGridLayoutManager.SpanSizeLookup(new Function1<Integer, SpanSize>() {
-            @Override
-            public SpanSize invoke(Integer position) {
-                if (recyclerViewAdapter.clickedItems[position]) {
-                    Log.d("LOGTEXT","changed"+ position);
-                    return new SpanSize(2, 2);
-                } else {
-                    return new SpanSize(1,1);
-                }
-            }
-        }));
-
-        mRecyclerView.setLayoutManager(spannedGridLayoutManager);
-        mRecyclerView.setAdapter(recyclerViewAdapter);
-    }  
-    */
 }

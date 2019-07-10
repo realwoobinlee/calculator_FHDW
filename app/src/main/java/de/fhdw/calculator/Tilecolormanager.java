@@ -37,8 +37,7 @@ public class Tilecolormanager {
                 usage.equals("bin")
         ){
             return R.color.operator;
-        }
-        if (numeric == true ||
+        }else if (numeric == true ||
                 usage.equals(",") ||
                 usage.equals("^") ||
                 usage.equals("(")||
@@ -53,14 +52,11 @@ public class Tilecolormanager {
                 usage.equals("electronc")||
                 usage.equals("")) {
             return R.color.constant;
-        }
-        if (usage.equals("view")){
+        }else if (usage.equals("view")){
             return R.color.view;
-        }
-        if(usage.equals("AC")||usage.equals("+/-")||usage.equals("%")){
+        }else if(usage.equals("AC")||usage.equals("+/-")||usage.equals("%")){
            return R.color.specialoperator;
-        }
-        else {
+        }else {
             return R.color.error;
         }
 

@@ -48,7 +48,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
 
     @Override
     public int getItemViewType(int position) {
-        if(DataSet.get(position)[1] == "output") {
+        if(DataSet.get(position)[2] == "output") {
             return TYPE_OUTPUTCARD;
         }
         return TYPE_NORMALCARD;
@@ -67,18 +67,23 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolder recyclerViewHolder, final int position) {
         String value = DataSet.get(position)[2].toString();
-        Log.d("LOGTEXT","onBincView:" + value);
+        boolean isspace = value.equals("space");
 
         if(getItemViewType(position) == TYPE_NORMALCARD) {
-            ((RecyclerViewHolder) recyclerViewHolder).setValueInTextView(value);
+            if(!isspace) {
+                ((RecyclerViewHolder) recyclerViewHolder).setValueInTextView(value);
+            }
         } else {
             ((RecyclerViewHolder) recyclerViewHolder).setValueInTextView(value);
         }
-        Log.d("LOGTEXT",String.valueOf(Tilecolormanager.returncolor(value)));
 
-        recyclerViewHolder.mTextView.setBackgroundResource(Tilecolormanager.returncolor(value));
+        if(!isspace) {
+            recyclerViewHolder.mButton.setBackgroundResource(Tilecolormanager.returncolor(value));
+        }else {
 
-        recyclerViewHolder.mTextView.setOnClickListener(new View.OnClickListener() {
+        }
+
+        recyclerViewHolder.mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
             }
