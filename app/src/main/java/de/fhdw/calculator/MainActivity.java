@@ -20,6 +20,7 @@ import com.arasthel.spannedgridlayoutmanager.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import de.fhdw.shared.EvalService;
 import de.fhdw.shared.InternalStorage;
 import de.fhdw.shared.LayoutFormat;
 import de.fhdw.shared.LayoutFormat.*;
@@ -71,6 +72,12 @@ public class MainActivity extends AppCompatActivity {
         }));
 
         mRecyclerView.setAdapter(recyclerViewAdapter);
+
+        System.out.println("Test PRS");
+        System.out.println(EvalService.calculateEquation("solve( 2*x - 4, x, 0, 10 )"));
+        System.out.println(EvalService.calculateEquation("5/0"));
+
+
     }
 
 }
