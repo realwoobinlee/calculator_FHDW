@@ -74,10 +74,22 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(recyclerViewAdapter);
 
         System.out.println("Test PRS");
-        System.out.println(EvalService.calculateEquation("solve( 2*x - 4, x, 0, 10 )"));
-        System.out.println(EvalService.calculateEquation("5/0"));
+      //  System.out.println(EvalService.calculateEquation("solve( 2*x - 4, x, 0, 10 )"));
+      //  System.out.println(EvalService.calculateEquation("5/0"));
 
+        ArrayList<String> input = new ArrayList<String>();
+        input.add("10");
+        input.add("7");
+        input.add("+");
+        input.add("8");
+        input.add("9");
+        input.add("+");
+        input.add("10");
+        input.add("+");
+        input.add("*");
 
-    }
+        System.out.println(EvalService.calculateEquation(input));
+
+   }
 
 }
