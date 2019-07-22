@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 public class EvalService {
-    public static String calculateEquation(ArrayList<String> equation) {
-        String infix = convert(equation);
+    public static String calculateEquation(ArrayList<String> postfix) {
+        String infix = convert(postfix);
         Expression e = new Expression(infix);
         return String.valueOf(e.calculate());
     }
