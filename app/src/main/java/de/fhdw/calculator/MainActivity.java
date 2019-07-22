@@ -104,9 +104,10 @@ public class MainActivity extends AppCompatActivity {
         input.add("-");
 
         //Variable, nach der aufgelöst werden soll und Intervall, in dem Nullstellen gesucht werden sollen.
-        String interval = ", x, -100, +100";
+        String target = "x";
+        String interval_lower = "-100";
+        String interval_upper = "100";
 
-        System.out.println(EvalService.solveEquation(input, interval));
+        System.out.println(EvalService.solveEquation(input, target, interval_lower, interval_upper));
    }
-
 }
