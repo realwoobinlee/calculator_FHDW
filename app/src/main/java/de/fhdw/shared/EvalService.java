@@ -37,7 +37,6 @@ public class EvalService {
     public static String solveEquation(ArrayList<String> postfix, String target, String interval_lower, String interval_upper) {
         String infix = convert(postfix);
         infix = "solve(" + infix + " ," + target + " ," + interval_lower + " ," +interval_upper+ ")";
-        System.out.println(infix);
         Expression e = new Expression(infix);
         return String.valueOf(e.calculate());
     }
