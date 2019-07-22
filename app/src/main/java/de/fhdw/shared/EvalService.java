@@ -8,6 +8,7 @@ import java.util.Stack;
 public class EvalService {
 
     public static String calculateEquation(ArrayList<String> postfix) {
+
         String infix = convert(postfix);
         Expression e = new Expression(infix);
 
