@@ -76,38 +76,38 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("Test PRS");
 
         //2,794758327383 ^ 3 / (5 * 11) + 10 + 9000000000 / (500 *1000)
-        ArrayList<String> input = new ArrayList<String>();
-        input.add("2.794758327383");
-        input.add("3");
-        input.add("^");
-        input.add("5");
-        input.add("11");
-        input.add("*");
-        input.add("/");
-        input.add("10");
-        input.add("+");
-        input.add("9000000000");
-        input.add("500");
-        input.add("1000");
-        input.add("*");
-        input.add("/");
-        input.add("+");
+        ArrayList<String> postfix = new ArrayList<String>();
+        postfix.add("2.794758327383");
+        postfix.add("3");
+        postfix.add("^");
+        postfix.add("5");
+        postfix.add("11");
+        postfix.add("*");
+        postfix.add("/");
+        postfix.add("10");
+        postfix.add("+");
+        postfix.add("9000000000");
+        postfix.add("500");
+        postfix.add("1000");
+        postfix.add("*");
+        postfix.add("/");
+        postfix.add("+");
 
-        System.out.println(EvalService.calculateEquation(input));
+        System.out.println(EvalService.calculateEquation(postfix));
 
         //2x-4
-        input.clear();
-        input.add("2");
-        input.add("x");
-        input.add("*");
-        input.add("4");
-        input.add("-");
+        postfix.clear();
+        postfix.add("2");
+        postfix.add("x");
+        postfix.add("*");
+        postfix.add("4");
+        postfix.add("-");
 
         //Variable, nach der aufgelöst werden soll und Intervall, in dem Nullstellen gesucht werden sollen.
         String target = "x";
         String interval_lower = "-100";
         String interval_upper = "100";
 
-        System.out.println(EvalService.solveEquation(input, target, interval_lower, interval_upper));
+        System.out.println(EvalService.solveEquation(postfix, target, interval_lower, interval_upper));
    }
 }
