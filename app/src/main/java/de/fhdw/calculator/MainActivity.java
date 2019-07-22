@@ -74,22 +74,39 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(recyclerViewAdapter);
 
         System.out.println("Test PRS");
-      //  System.out.println(EvalService.calculateEquation("solve( 2*x - 4, x, 0, 10 )"));
-      //  System.out.println(EvalService.calculateEquation("5/0"));
 
+        //2,794758327383 ^ 3 / (5 * 11) + 10 + 9000000000 / (500 *1000)
         ArrayList<String> input = new ArrayList<String>();
-        input.add("10");
-        input.add("7");
-        input.add("+");
-        input.add("8");
-        input.add("9");
-        input.add("+");
-        input.add("10");
-        input.add("+");
+        input.add("2.794758327383");
+        input.add("3");
+        input.add("^");
+        input.add("5");
+        input.add("11");
         input.add("*");
+        input.add("/");
+        input.add("10");
+        input.add("+");
+        input.add("9000000000");
+        input.add("500");
+        input.add("1000");
+        input.add("*");
+        input.add("/");
+        input.add("+");
 
         System.out.println(EvalService.calculateEquation(input));
 
+        //2x-4
+        input.clear();
+        input.add("2");
+        input.add("x");
+        input.add("*");
+        input.add("4");
+        input.add("-");
+
+        //Variable, nach der aufgelöst werden soll und Intervall, in dem Nullstellen gesucht werden sollen.
+        String interval = ", x, -100, +100";
+
+        System.out.println(EvalService.solveEquation(input, interval));
    }
 
 }

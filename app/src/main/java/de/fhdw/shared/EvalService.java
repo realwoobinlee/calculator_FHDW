@@ -9,14 +9,7 @@ public class EvalService {
     public static String calculateEquation(ArrayList<String> equation) {
         String infix = convert(equation);
         Expression e = new Expression(infix);
-        /*
-        mXparser.consolePrintln("Checking Syntax..");
-        e.checkSyntax();
-        mXparser.consolePrintln(e.getErrorMessage());
-        */
-        System.out.println(infix);
         return String.valueOf(e.calculate());
-
     }
 
         private static boolean isOperator(String  c) {
@@ -37,7 +30,13 @@ public class EvalService {
                 } else
                     s.push("" + c);
             }
-
             return s.pop();
         }
+
+    public static String solveEquation(ArrayList<String> postfix, String interval) {
+        String infix = convert(postfix);
+        infix = "solve(" + infix + interval + ")";
+        Expression e = new Expression(infix);
+        return String.valueOf(e.calculate());
+    }
     }
