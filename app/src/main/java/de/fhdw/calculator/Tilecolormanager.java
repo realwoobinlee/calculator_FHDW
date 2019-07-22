@@ -31,12 +31,12 @@ public class Tilecolormanager {
 
                 usage.equals("log")||
                 usage.equals("log10")||
-                usage.equals("Summe")||
-                usage.equals("seq()")||
+                usage.equals("summe")||
+                usage.equals("seq")||
                 usage.equals("summenprodukt")||
                 usage.equals("bin")
         ){
-            return R.color.operator;
+            return R.drawable.operators_drawable;
         }else if (numeric == true ||
                 usage.equals(",") ||
                 usage.equals("^") ||
@@ -51,13 +51,15 @@ public class Tilecolormanager {
                 usage.equals("electronm")||
                 usage.equals("electronc")||
                 usage.equals("")) {
-            return R.color.constant;
+            return R.drawable.constant_drawable;
         }else if (usage.equals("view")){
-            return R.color.view;
-        }else if(usage.equals("AC")||usage.equals("+/-")||usage.equals("%")){
-           return R.color.specialoperator;
+            return R.drawable.view_drawable;
+        }else if(usage.equals("AC")||usage.equals("+/-")||usage.equals("%")) {
+            return R.drawable.specialoperator_drawable;
+        }else if (usage.equals("result")) {
+            return R.drawable.result_drawable;
         }else {
-            return R.color.error;
+            return R.drawable.error_drawable;
         }
 
 

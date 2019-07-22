@@ -31,7 +31,13 @@ public class MainActivity extends AppCompatActivity {
     InternalStorage internalStorage = new InternalStorage();
     SpannedGridLayoutManager spannedGridLayoutManager;
     RecyclerViewAdapter recyclerViewAdapter;
-    String[][] fdataset = {{"1","2","+"},{"2","1","+"},{"1","1","space"},{"3","1","view"}};
+    String[][] fdataset = {{"4","1","view"},{"4","3","space"},{"1","1","vector"},{"1","1", "prime"},
+            {"1","1", "AC"},{"1","1", "+/-"},{"1","1", "%"},{"1","1", "/"},{"1","1", "ln"},{"1","1", "xsqr"},
+            {"1","1", "7"},{"1","1", "8"},{"1","1", "9"},{"1","1", "*"},{"1","1", "sin"},{"1","1", "cos"},
+            {"1","1", "4"},{"1","1", "5"},{"1","1", "6"},{"1","1", "-"},{"1","1", "i"},{"1","1", "e"},{"1","1", "c"},{"1","1", "pi"},{"1","1", "tan"},{"1","1", "xsqr"},
+            {"1","1", "1"},{"1","1", "2"},{"1","1", "3"},{"1","1", "+"},{"1","1", "y"},{"1","1", "x"},{"1","1", "electronm"},{"1","1", "electronc"},{"1","1", "log"},{"1","1", "log10"},
+        {"1","1", "0"},{"1","1", ","},{"1","1", "^"},{"1","1", "sqr"},{"1","1", "result"},{"1","1", "result"},{"1","1", ""},{"1","1", ""},{"1","1", "summe"},{"1","1", "seq"},
+            {"1","1", "10"},{"1","1", "100"},{"1","1", "."},{"1","1", ""},{"1","1", ""},{"1","1", ""},{"1","1", ""},{"1","1", ""},{"1","1", "summenprodukt"},{"1","1", "bin"}};
     String[] felements = {"sizex","sizey","value"};
     String[][] dataset;
     @Override

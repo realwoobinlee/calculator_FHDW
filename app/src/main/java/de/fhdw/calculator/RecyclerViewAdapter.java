@@ -80,7 +80,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
         if(!isspace) {
             recyclerViewHolder.mButton.setBackgroundResource(Tilecolormanager.returncolor(value));
         }else {
-
+            recyclerViewHolder.mButton.setBackgroundResource(Tilecolormanager.returncolor(value));
         }
 
         recyclerViewHolder.mButton.setOnClickListener(new View.OnClickListener() {

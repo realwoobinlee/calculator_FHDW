@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+
+
+    >
 
     <Button
+
         android:id="@+id/tv_griditem"
-        android:layout_width="match_parent"
+        style="@style/ButtonStyle"
+
+       android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textSize="20dp"/>
+        android:background="@drawable/operators_drawable"
+
+        android:elevation="7dp"
+        android:textSize="15dp"
+        />
 
 </android.support.constraint.ConstraintLayout>
