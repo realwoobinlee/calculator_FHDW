@@ -74,22 +74,40 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(recyclerViewAdapter);
 
         System.out.println("Test PRS");
-      //  System.out.println(EvalService.calculateEquation("solve( 2*x - 4, x, 0, 10 )"));
-      //  System.out.println(EvalService.calculateEquation("5/0"));
 
-        ArrayList<String> input = new ArrayList<String>();
-        input.add("10");
-        input.add("7");
-        input.add("+");
-        input.add("8");
-        input.add("9");
-        input.add("+");
-        input.add("10");
-        input.add("+");
-        input.add("*");
+        //2,794758327383 ^ 3 / (5 * 11) + 10 + 9000000000 / (500 *1000)
+        ArrayList<String> postfix = new ArrayList<String>();
+        postfix.add("2.794758327383");
+        postfix.add("3");
+        postfix.add("^");
+        postfix.add("5");
+        postfix.add("11");
+        postfix.add("*");
+        postfix.add("/");
+        postfix.add("10");
+        postfix.add("+");
+        postfix.add("9000000000");
+        postfix.add("500");
+        postfix.add("1000");
+        postfix.add("*");
+        postfix.add("/");
+        postfix.add("+");
 
-        System.out.println(EvalService.calculateEquation(input));
+        System.out.println(EvalService.calculateEquation(postfix));
 
+        //2x-4
+        postfix.clear();
+        postfix.add("2");
+        postfix.add("x");
+        postfix.add("*");
+        postfix.add("4");
+        postfix.add("-");
+
+        //Variable, nach der aufgelöst werden soll und Intervall, in dem Nullstellen gesucht werden sollen.
+        String target = "x";
+        String interval_lower = "-100";
+        String interval_upper = "100";
+
+        System.out.println(EvalService.solveEquation(postfix, target, interval_lower, interval_upper));
    }
-
 }
