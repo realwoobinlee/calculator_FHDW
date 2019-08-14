@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     InternalStorage internalStorage = new InternalStorage();
     SpannedGridLayoutManager spannedGridLayoutManager;
     RecyclerViewAdapter recyclerViewAdapter;
-    String[][] fdataset = {{"1","2","+"},{"2","1","+"},{"1","1","space"},{"3","1","view"}};
+    String[][] fdataset = {{"3","1","1"},{"8","2","2"},{"1","1","3"},{"3","1","4"}};
     String[] felements = {"sizex","sizey","value"};
     String[][] dataset;
     @Override
