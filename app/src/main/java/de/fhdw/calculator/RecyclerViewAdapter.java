@@ -8,6 +8,7 @@ import android.service.autofill.Dataset;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
 
     private static int TYPE_NORMALCARD = 0;
     private static int TYPE_OUTPUTCARD = 1;
+
+    public static int CHANGE_FUNCTION_ID = 1000;
+    public static int CHANGE_SIZE_ID =1001;
+    public static int CHANGE_POSITION_ID =1002;
+    public static int DELETE_ID = 1003;
+
 
     // HashMap key: Long(Position) Values: String(Size ex. 1:3), String(Value ex.'+', 'output'
     //public HashMap<Long,String[]> MapPosSizeVal = new HashMap<Long,String[]>();
@@ -89,6 +96,23 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
                 System.out.println("LOGTEXT: " + DataSet.get(position)[2]);
             }
         });
+        recyclerViewHolder.mButton.setOnLongClickListener(new View.OnLongClickListener() {
+
+            @Override
+            public boolean onLongClick(View view) {
+                view.setOnCreateContextMenuListener( new View.OnCreateContextMenuListener() {
+                    @Override
+                    public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+                        contextMenu.setHeaderTitle("Optionen");
+                        contextMenu.add(0, CHANGE_FUNCTION_ID,0, "funktion ändern");
+                        contextMenu.add(0, CHANGE_SIZE_ID,0 , "größe ändern");
+                        contextMenu.add(0, CHANGE_POSITION_ID,0 , "position ändern");
+                        contextMenu.add(0, DELETE_ID, 0, "löschen");
+                    }
+                });
+                return false;
+            }
+        });
     }
 
     @Override
@@ -100,4 +124,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
     public long getItemId(int position) {
         return super.getItemId(position);
     }
+
+
 }
