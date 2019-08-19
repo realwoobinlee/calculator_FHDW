@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     InternalStorage internalStorage = new InternalStorage();
     SpannedGridLayoutManager spannedGridLayoutManager;
     RecyclerViewAdapter recyclerViewAdapter;
-    String[][] fdataset = {{"3","1","1"},{"8","2","2"},{"1","1","3"},{"3","1","4"}};
+    String[][] fdataset = {{"3","1","+"},{"8","2","2"},{"1","1","3"},{"3","1","4"}};
     String[] felements = {"sizex","sizey","value"};
     String[][] dataset;
     @Override
@@ -72,28 +72,25 @@ public class MainActivity extends AppCompatActivity {
         }));
 
         mRecyclerView.setAdapter(recyclerViewAdapter);
+        //System.out.println("LOGTEXT: ");
 
         System.out.println("Test PRS");
 
         //2,794758327383 ^ 3 / (5 * 11) + 10 + 9000000000 / (500 *1000)
         ArrayList<String> postfix = new ArrayList<String>();
-        postfix.add("2.794758327383");
+        postfix.add("2");
         postfix.add("3");
         postfix.add("^");
+        postfix.add("2");
+        postfix.add("/");
+        postfix.add("2");
         postfix.add("5");
-        postfix.add("11");
         postfix.add("*");
-        postfix.add("/");
-        postfix.add("10");
+        postfix.add("5");
         postfix.add("+");
-        postfix.add("9000000000");
-        postfix.add("500");
-        postfix.add("1000");
         postfix.add("*");
-        postfix.add("/");
-        postfix.add("+");
 
-        System.out.println(EvalService.calculateEquation(postfix));
+        Log.d("LOGTEXT",EvalService.calculateEquation(postfix));
 
         //2x-4
         postfix.clear();
