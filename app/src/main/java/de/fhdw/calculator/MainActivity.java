@@ -20,6 +20,7 @@ import com.arasthel.spannedgridlayoutmanager.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import de.fhdw.shared.EvalService;
 import de.fhdw.shared.InternalStorage;
 import de.fhdw.shared.LayoutFormat;
 import de.fhdw.shared.LayoutFormat.*;
@@ -31,13 +32,7 @@ public class MainActivity extends AppCompatActivity {
     InternalStorage internalStorage = new InternalStorage();
     SpannedGridLayoutManager spannedGridLayoutManager;
     RecyclerViewAdapter recyclerViewAdapter;
-    String[][] fdataset = {{"4","1","view"},{"4","3","space"},{"1","1","vector"},{"1","1", "prime"},
-            {"1","1", "AC"},{"1","1", "+/-"},{"1","1", "%"},{"1","1", "/"},{"1","1", "ln"},{"1","1", "xsqr"},
-            {"1","1", "7"},{"1","1", "8"},{"1","1", "9"},{"1","1", "*"},{"1","1", "sin"},{"1","1", "cos"},
-            {"1","1", "4"},{"1","1", "5"},{"1","1", "6"},{"1","1", "-"},{"1","1", "i"},{"1","1", "e"},{"1","1", "c"},{"1","1", "pi"},{"1","1", "tan"},{"1","1", "xsqr"},
-            {"1","1", "1"},{"1","1", "2"},{"1","1", "3"},{"1","1", "+"},{"1","1", "y"},{"1","1", "x"},{"1","1", "electronm"},{"1","1", "electronc"},{"1","1", "log"},{"1","1", "log10"},
-        {"1","1", "0"},{"1","1", ","},{"1","1", "^"},{"1","1", "sqr"},{"1","1", "result"},{"1","1", "result"},{"1","1", ""},{"1","1", ""},{"1","1", "summe"},{"1","1", "seq"},
-            {"1","1", "10"},{"1","1", "100"},{"1","1", "."},{"1","1", ""},{"1","1", ""},{"1","1", ""},{"1","1", ""},{"1","1", ""},{"1","1", "summenprodukt"},{"1","1", "bin"}};
+    String[][] fdataset = {{"3","1","1"},{"8","2","2"},{"1","1","3"},{"3","1","4"}};
     String[] felements = {"sizex","sizey","value"};
     String[][] dataset;
     @Override
@@ -77,6 +72,42 @@ public class MainActivity extends AppCompatActivity {
         }));
 
         mRecyclerView.setAdapter(recyclerViewAdapter);
-    }
 
+        System.out.println("Test PRS");
+
+        //2,794758327383 ^ 3 / (5 * 11) + 10 + 9000000000 / (500 *1000)
+        ArrayList<String> postfix = new ArrayList<String>();
+        postfix.add("2.794758327383");
+        postfix.add("3");
+        postfix.add("^");
+        postfix.add("5");
+        postfix.add("11");
+        postfix.add("*");
+        postfix.add("/");
+        postfix.add("10");
+        postfix.add("+");
+        postfix.add("9000000000");
+        postfix.add("500");
+        postfix.add("1000");
+        postfix.add("*");
+        postfix.add("/");
+        postfix.add("+");
+
+        System.out.println(EvalService.calculateEquation(postfix));
+
+        //2x-4
+        postfix.clear();
+        postfix.add("2");
+        postfix.add("x");
+        postfix.add("*");
+        postfix.add("4");
+        postfix.add("-");
+
+        //Variable, nach der aufgelöst werden soll und Intervall, in dem Nullstellen gesucht werden sollen.
+        String target = "x";
+        String interval_lower = "-100";
+        String interval_upper = "100";
+
+        System.out.println(EvalService.solveEquation(postfix, target, interval_lower, interval_upper));
+   }
 }
