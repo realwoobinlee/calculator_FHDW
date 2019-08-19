@@ -1,6 +1,7 @@
 package de.fhdw.calculator;
 
 import android.graphics.Rect;
+import android.nfc.Tag;
 import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -73,27 +74,59 @@ public class MainActivity extends AppCompatActivity {
 
         mRecyclerView.setAdapter(recyclerViewAdapter);
 
-        System.out.println("Test PRS");
+        System.out.println("PRS Test EvalService");
 
-        //2,794758327383 ^ 3 / (5 * 11) + 10 + 9000000000 / (500 *1000)
+        //A * B + C / D
+        //7 * 11 + 13 / 19
+        //7 11 * 13 19 / +
+
+        System.out.println("PRS 7 * 11 + 13 / 19");
+
         ArrayList<String> postfix = new ArrayList<String>();
-        postfix.add("2.794758327383");
-        postfix.add("3");
-        postfix.add("^");
-        postfix.add("5");
+        postfix.add("7");
         postfix.add("11");
         postfix.add("*");
-        postfix.add("/");
-        postfix.add("10");
-        postfix.add("+");
-        postfix.add("9000000000");
-        postfix.add("500");
-        postfix.add("1000");
-        postfix.add("*");
+        postfix.add("13");
+        postfix.add("19");
         postfix.add("/");
         postfix.add("+");
 
-        System.out.println(EvalService.calculateEquation(postfix));
+        System.out.println("PRS " + EvalService.calculateEquation(postfix));
+
+        //A * (B + C) / D
+        //7 * (11 + 13) / 19
+        //7 11 13 + * 19 /
+
+        System.out.println("PRS 7 * (11 + 13) / 19");
+
+        postfix.clear();
+        postfix.add("7");
+        postfix.add("11");
+        postfix.add("13");
+        postfix.add("+");
+        postfix.add("*");
+        postfix.add("19");
+        postfix.add("/");
+
+        System.out.println("PRS " + EvalService.calculateEquation(postfix));
+
+
+        //A * (B + C / D)
+        //7 * (11 + 13 / 19)
+        //7 11 13 19 / + *
+
+        System.out.println("PRS 7 * (11 + 13 / 19)");
+
+        postfix.clear();
+        postfix.add("7");
+        postfix.add("11");
+        postfix.add("13");
+        postfix.add("19");
+        postfix.add("/");
+        postfix.add("+");
+        postfix.add("*");
+
+        System.out.println("PRS " + EvalService.calculateEquation(postfix));
 
         //2x-4
         postfix.clear();

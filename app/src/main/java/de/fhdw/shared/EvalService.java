@@ -1,7 +1,5 @@
 package de.fhdw.shared;
-
 import org.mariuszgromada.math.mxparser.*;
-
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -15,7 +13,7 @@ public class EvalService {
         return String.valueOf(e.calculate());
     }
 
-    private static boolean isOperator(String  c) {
+    private static boolean isOperator(String c) {
 
         if (c.equals("+") || c.equals("-") || c.equals("*") || c.equals("/") || c.equals("^"))
            return true;
@@ -44,8 +42,8 @@ public class EvalService {
     public static String solveEquation(ArrayList<String> postfix, String target, String interval_lower, String interval_upper) {
 
         String infix = convert(postfix);
-         Expression e = new Expression("solve(" + infix + " ," + target + " ," + interval_lower + " ," +interval_upper+ ")");
+        Expression e = new Expression("solve(" + infix + " ," + target + " ," + interval_lower + " ," +interval_upper+ ")");
 
-         return String.valueOf(e.calculate());
+        return String.valueOf(e.calculate());
     }
     }
