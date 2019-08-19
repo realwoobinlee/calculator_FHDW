@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/move_left"
+        android:title="nach links verschieben"
+        />
+    <item
+        android:id="@+id/move_right"
+        android:title="nach rechts verschieben"
+        />
+    <item
+        android:id="@+id/move_down"
+        android:title="nach unten verschieben"
+        />
+</menu>
