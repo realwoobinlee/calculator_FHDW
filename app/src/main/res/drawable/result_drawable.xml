@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ripple xmlns:android="http://schemas.android.com/apk/res/android" android:color="@color/colorPrimary">
+<selector xmlns:android="http://schemas.android.com/apk/res/android" android:color="@color/colorPrimary">
     <item>
         <layer-list>
             <item android:right="5dp" android:top="5dp" android:bottom="1dp">
@@ -20,4 +20,4 @@
         </layer-list>
     </item>
 
-</ripple>
+</selector>
