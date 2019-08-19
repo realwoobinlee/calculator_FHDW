@@ -1,7 +1,5 @@
 package de.fhdw.shared;
 
-import android.util.Log;
-
 import org.mariuszgromada.math.mxparser.*;
 
 import java.util.ArrayList;
