@@ -8,8 +8,4 @@
         android:id="@+id/move_right"
         android:title="nach rechts verschieben"
         />
-    <item
-        android:id="@+id/move_down"
-        android:title="nach unten verschieben"
-        />
 </menu>

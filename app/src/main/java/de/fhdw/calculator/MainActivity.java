@@ -3,6 +3,7 @@ package de.fhdw.calculator;
 import android.graphics.Rect;
 import android.nfc.Tag;
 import android.os.PersistableBundle;
+import android.service.autofill.Dataset;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import org.json.JSONException;
 import org.mariuszgromada.math.mxparser.*;
 import com.arasthel.spannedgridlayoutmanager.*;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -30,20 +32,43 @@ import kotlin.jvm.functions.Function1;
 public class MainActivity extends AppCompatActivity {
 
     RecyclerView mRecyclerView;
+    RecyclerViewAdapter recyclerViewAdapter;
     InternalStorage internalStorage = new InternalStorage();
     SpannedGridLayoutManager spannedGridLayoutManager;
-    RecyclerViewAdapter recyclerViewAdapter;
-    String[][] fdataset = {{"3","1","1"},{"8","2","2"},{"1","1","3"},{"3","1","+"},{"3","1","+"}};
-    String[] felements = {"sizex","sizey","value"};
-    String[][] dataset;
+    //String[][] fdataset = {{"3","1","1"},{"8","2","2"},{"1","1","3"},{"3","1","+"},{"3","1","+"}};
+    //String[] felements = {"sizex","sizey","value"};
+    String[][] dataset = {{"1","1","1"},{"2","2","+"}};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        /*
         internalStorage.writeJSONFile(this,"layoutformat.json",internalStorage.ConvertToJsonArray(fdataset,felements));
         JSONArray jarray = internalStorage.readJSONFile(this,"layoutformat.json");
-        dataset = internalStorage.ConvertToStringArrayArray(jarray,
-                felements);
+        */
+        if (savedInstanceState != null) {
+            System.out.println("LOGTEXT HALLO");
+            SetDatasetFromState(savedInstanceState);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        String[] DataState = {};
+        for(int i=0;i<dataset.length;i++) {
+            DataState[i] = dataset[i][0] + "," + dataset[i][1] + "," + dataset[i][2];
+            System.out.println(DataState[i]);
+        }
+        outState.putStringArray("datastate", DataState);
+        super.onSaveInstanceState(outState);
+    }
+
+    public void SetDatasetFromState(Bundle savedInstanceState) {
+        String[] DataState = savedInstanceState.getStringArray("datastate");
+        for(int i=0;i<dataset.length;i++) {
+            dataset[i] = DataState[i].split(",");
+        }
     }
 
     @Override
@@ -60,18 +85,36 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.addItemDecoration(spaceItemDecorator);
         //mRecyclerView.addOnItemTouchListener();
         recyclerViewAdapter = new RecyclerViewAdapter(dataset);
+        recyclerViewAdapter.updateView();
+        /*
+        if (savedInstanceState.getBoolean("isinitial")) {
+            //dataset = internalStorage.ConvertToStringArrayArray(jarray,felements);
+            recyclerViewAdapter.insertRenewedDataset(dataset);
+        } else {
+            recyclerViewAdapter.insertRenewedDataset(savedInstanceState.getStringArray("datastate"));
+            dataset = recyclerViewAdapter.PosSizeVal;
+        }
+        */
 
         spannedGridLayoutManager.setSpanSizeLookup(new SpannedGridLayoutManager.SpanSizeLookup(new Function1<Integer, SpanSize>() {
             @Override
             public SpanSize invoke(Integer position) {
-                if(dataset[position]!=null) {
-                    return new SpanSize(Integer.valueOf(dataset[position][0]),Integer.valueOf(dataset[position][1]));
-                } else {
-                    return new SpanSize(1,1);
-                }
+                return new SpanSize(Integer.valueOf(recyclerViewAdapter.PosSizeVal[position][0]),Integer.valueOf(recyclerViewAdapter.PosSizeVal[position][1]));
             }
         }));
-
+        /*
+        if (initialOpen || recyclerViewAdapter.ischanged) {
+            initialOpen = false;
+            recyclerViewAdapter.ischanged = false;
+            spannedGridLayoutManager.setSpanSizeLookup(new SpannedGridLayoutManager.SpanSizeLookup(new Function1<Integer, SpanSize>() {
+                @Override
+                public SpanSize invoke(Integer position) {
+                    return new SpanSize(Integer.valueOf(dataset[position][0]),Integer.valueOf(dataset[position][1]));
+                }
+            }));
+        }
+        */
+        dataset = recyclerViewAdapter.PosSizeVal;
         mRecyclerView.setAdapter(recyclerViewAdapter);
 
         System.out.println("PRS Test EvalService");
@@ -143,4 +186,16 @@ public class MainActivity extends AppCompatActivity {
 
         System.out.println(EvalService.solveEquation(postfix, target, interval_lower, interval_upper));
    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("LOGTEXT","pause");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("LOGTEXT","resume");
+    }
 }

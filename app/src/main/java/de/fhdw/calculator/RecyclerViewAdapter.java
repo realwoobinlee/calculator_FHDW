@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 import android.app.Activity;
 import android.support.v7.app.AlertDialog;
@@ -42,33 +43,30 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
     public static final int DELETE_ID = 1003;
     public static final int RESET_ID = 1004;
 
-
+    public String[] DataState;
     // HashMap key: Long(Position) Values: String(Size ex. 1:3), String(Value ex.'+', 'output'
     //public HashMap<Long,String[]> MapPosSizeVal = new HashMap<Long,String[]>();
-    public ArrayList<String[]> DataSet = new ArrayList<String[]>();
-    public String[][] PosSizeVal;
+    //public ArrayList<String[]> DataSet = new ArrayList<String[]>();
+    public String[][] PosSizeVal; // = {{"1","1","-"},{"2","2","9"}};
 
     //must be tested!!!
+
     public RecyclerViewAdapter(String[][] possizeval) {
-        //Value,Size(2:2)
         PosSizeVal = possizeval;
-        for(int i = 0; i < PosSizeVal.length; i++) {
-            DataSet.add(PosSizeVal[i]);
-        }
         setHasStableIds(true);
     }
 
-    public void setPosSizeVal(String[][] possizeval) {
-        PosSizeVal = possizeval;
-        DataSet.clear();
-        for(int i = 0; i < PosSizeVal.length; i++) {
-            DataSet.add(PosSizeVal[i]);
-        }
+    public void updateView() {
+        notifyDataSetChanged();
     }
 
+    public void changeValue(int position, String newVal) {
+        PosSizeVal[position][2] = newVal;
+        Log.d("LOGTEXT",PosSizeVal[position][2]);
+    }
     @Override
     public int getItemViewType(int position) {
-        if(DataSet.get(position)[2] == "output") {
+        if(PosSizeVal[position][2] == "output") {
             return TYPE_OUTPUTCARD;
         }
         return TYPE_NORMALCARD;
@@ -86,31 +84,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull final RecyclerViewHolder recyclerViewHolder, final int position) {
-        String value = DataSet.get(position)[2].toString();
+        String value = PosSizeVal[position][2].toString();
+        //String value = DataSet.get(position)[2].toString();
         boolean isspace = value.equals("space");
-
-        if(getItemViewType(position) == TYPE_NORMALCARD) {
-            if(!isspace) {
-                ((RecyclerViewHolder) recyclerViewHolder).setValueInTextView(value);
-            }
-        } else {
-            ((RecyclerViewHolder) recyclerViewHolder).setValueInTextView(value);
-        }
-
-        if(!isspace) {
-            recyclerViewHolder.mButton.setBackgroundResource(Tilecolormanager.returncolor(value));
-        }else {
-            recyclerViewHolder.mButton.setBackgroundResource(Tilecolormanager.returncolor(value));
-        }
 
         recyclerViewHolder.mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("LOGTEXT: " + DataSet.get(position)[2]);
+                System.out.println("LOGTEXT: " + PosSizeVal[position][2]);
             }
         });
         recyclerViewHolder.mButton.setOnLongClickListener(new View.OnLongClickListener() {
-
             @Override
             public boolean onLongClick(final View longclickview) {
                 longclickview.setOnCreateContextMenuListener( new View.OnCreateContextMenuListener() {
@@ -124,67 +108,73 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
                                     final Dialog change_function_dialog = new Dialog(contextview.getContext());
                                     change_function_dialog.setContentView(R.layout.function_options);
                                     change_function_dialog.setTitle("Funktionen ändern");
-
+                                    final EditText functioninput = (EditText) change_function_dialog.findViewById(R.id.functioninput);
                                     //Schreibt den eigegebenen Text im custom Dialog in die Kachel und schließt den custom Dialog
                                     Button confirmfunction = (Button) change_function_dialog.findViewById(R.id.confirmfunction);
                                     confirmfunction.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
-                                            Log.d("LOGTEXT", "onClick: Testi");
+                                            changeValue(position,functioninput.getText().toString());
+                                            notifyDataSetChanged();
                                             change_function_dialog.dismiss();
                                         }
                                     });
 
                                     //Ändert die Funktionalität einer Kachel zu einer ergebnis Kachel
                                     Button resultbutton = (Button) change_function_dialog.findViewById(R.id.resultbutton);
-                                    confirmfunction.setOnClickListener(new View.OnClickListener() {
+                                    resultbutton.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
-                                            Log.d("LOGTEXT", "onClick: Testi");
+                                            changeValue(position,"=");
+                                            notifyDataSetChanged();
                                             change_function_dialog.dismiss();
                                         }
                                     });
 
                                     //Ändert die Funktionalität einer Kachel dem Operand +
                                     Button plusbutton = (Button) change_function_dialog.findViewById(R.id.plusbutton);
-                                    confirmfunction.setOnClickListener(new View.OnClickListener() {
+                                    plusbutton.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
-                                            Log.d("LOGTEXT", "onClick: Testi");
+                                            changeValue(position,"+");
+                                            notifyDataSetChanged();
+                                            //notifyDataSetChanged();
                                             change_function_dialog.dismiss();
                                         }
                                     });
 
                                     //Ändert die Funktionalität einer Kachel dem Operand -
                                     Button minusbutton = (Button) change_function_dialog.findViewById(R.id.minusbutton);
-                                    confirmfunction.setOnClickListener(new View.OnClickListener() {
+                                    minusbutton.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
-                                            Log.d("LOGTEXT", "onClick: Testi");
+                                            changeValue(position,"-");
+                                            notifyDataSetChanged();
                                             change_function_dialog.dismiss();
                                         }
                                     });
 
                                     //Ändert die Funktionalität einer Kachel dem Operand *
                                     Button multibutton = (Button) change_function_dialog.findViewById(R.id.multibutton);
-                                    confirmfunction.setOnClickListener(new View.OnClickListener() {
+                                    multibutton.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
-                                            Log.d("LOGTEXT", "onClick: Testi");
+                                            changeValue(position,"*");
+                                            notifyDataSetChanged();
                                             change_function_dialog.dismiss();
                                         }
                                     });
 
                                     //Ändert die Funktionalität einer Kachel dem Operand /
                                     Button divbutton = (Button) change_function_dialog.findViewById(R.id.divbutton);
-                                    confirmfunction.setOnClickListener(new View.OnClickListener() {
+                                    divbutton.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
-                                            Log.d("LOGTEXT", "onClick: Testi");
+                                            changeValue(position,"/");
+                                            notifyDataSetChanged();
                                             change_function_dialog.dismiss();
                                         }
                                     });
-
                                     change_function_dialog.show();
 
                                     return false;
@@ -291,17 +281,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
                                             }
                                         });
 
-                                        //verschiebt die Kachel nach unten
-                                        Button move_down = (Button) change_function_dialog.findViewById(R.id.move_down);
-                                        move_down.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View view) {
-                                                Log.d("LOGTEXT", "onClick: Testi");
-                                                change_function_dialog.dismiss();
-                                            }
-                                        });
-
-
                                         change_function_dialog.show();
 
                                         return false;
@@ -333,18 +312,28 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
                 return false;
             }
         });
+        if(getItemViewType(position) == TYPE_NORMALCARD) {
+            if(!isspace) {
+                ((RecyclerViewHolder) recyclerViewHolder).mButton.setText(value);
+            }
+        } else {
+            ((RecyclerViewHolder) recyclerViewHolder).mButton.setText(value);
+        }
+
+        if(!isspace) {
+            recyclerViewHolder.mButton.setBackgroundResource(Tilecolormanager.returncolor(value));
+        }else {
+            recyclerViewHolder.mButton.setBackgroundResource(Tilecolormanager.returncolor(value));
+        }
     }
 
     @Override
     public int getItemCount() {
-        return DataSet.size();
+        return PosSizeVal.length;
     }
 
     @Override
     public long getItemId(int position) {
         return super.getItemId(position);
     }
-
-
-
 }
