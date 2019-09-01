@@ -25,11 +25,13 @@ import android.support.v7.app.AlertDialog;
 
 import com.arasthel.spannedgridlayoutmanager.SpannedGridLayoutManager;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import de.fhdw.shared.EvalService;
 import de.fhdw.shared.InternalStorage;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
@@ -44,16 +46,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
     public static final int DELETE_ID = 1003;
     public static final int RESET_ID = 1004;
 
-    // HashMap key: Long(Position) Values: String(Size ex. 1:3), String(Value ex.'+', 'output'
-    //public HashMap<Long,String[]> MapPosSizeVal = new HashMap<Long,String[]>();
-    //public ArrayList<String[]> DataSet = new ArrayList<String[]>();
-    //public String[][] PosSizeVal; // = {{"1","1","-"},{"2","2","9"}};
     public List<String[]> DataSet;
-    //must be tested!!!
+    // Daten werden hier zur späteren Berechnung gespeichert;
+    public ArrayList<String> CalcList = new ArrayList<String>();
+    // Ein Ergebnis wird vorläufig hier gespeichert bis eine Kachel zum Abladen des Ergebnises gedrückt wird
+    public String CalcResult = "";
 
-    public RecyclerViewAdapter(String[][] possizeval) {
-        //PosSizeVal = possizeval;
-        DataSet = Arrays.asList(possizeval);
+    public RecyclerViewAdapter(List<String[]> possizeval) {
+        DataSet = possizeval;
         setHasStableIds(true);
     }
 
@@ -100,14 +100,38 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull final RecyclerViewHolder recyclerViewHolder, final int position) {
-        String value = DataSet.get(position)[2].toString();
-        //String value = DataSet.get(position)[2].toString();
+        String value = DataSet.get(position)[2];
         boolean isspace = value.equals("space");
+        if(getItemViewType(position) == TYPE_NORMALCARD) {
+            if(!isspace) {
+                ((RecyclerViewHolder) recyclerViewHolder).mButton.setText(value);
+            }
+        } else {
+            ((RecyclerViewHolder) recyclerViewHolder).mButton.setText(value);
+        }
+
+        if(!isspace) {
+            recyclerViewHolder.mButton.setBackgroundResource(Tilecolormanager.returncolor(value));
+        }else {
+            recyclerViewHolder.mButton.setBackgroundResource(Tilecolormanager.returncolor(value));
+        }
 
         recyclerViewHolder.mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("LOGTEXT: " + DataSet.get(position)[0] + "," +DataSet.get(position)[1] + "," +DataSet.get(position)[2]);
+                //System.out.println("LOGTEXT: " + DataSet.get(position)[0] + "," +DataSet.get(position)[1] + "," +DataSet.get(position)[2]);
+                String tempValue = DataSet.get(position)[2];
+                if (CalcResult != "") {
+                    changeValue(position,CalcResult);
+                    CalcResult = "";
+                }else {
+                    if ( tempValue != "=" && tempValue != "") {
+                        CalcList.add(tempValue);
+                    } else if (tempValue == "=") {
+                        CalcResult = EvalService.calculateEquation(CalcList);
+                        CalcList.clear();
+                    }
+                }
             }
         });
         recyclerViewHolder.mButton.setOnLongClickListener(new View.OnLongClickListener() {
@@ -270,7 +294,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
                                     @Override
                                     public boolean onMenuItemClick(MenuItem item) {
                                         final Dialog change_function_dialog = new Dialog(contextview.getContext());
-                                        change_function_dialog.setContentView(R.layout.function_options);
+                                        change_function_dialog.setContentView(R.layout.options_change_position);
                                         change_function_dialog.setTitle("Position ändern");
 
                                         //verschiebt die Kachel nach links
@@ -278,7 +302,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
                                         move_left.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View view) {
-                                                Log.d("LOGTEXT", "onClick: Testi");
+                                                if (position != 0) {
+                                                    String[] tempItem = DataSet.get(position);
+                                                    DataSet.remove(position);
+                                                    DataSet.add(position - 1,tempItem);
+                                                    notifyDataSetChanged();
+                                                    notifyItemMoved(position, position - 1);
+                                                }
                                                 change_function_dialog.dismiss();
                                             }
                                         });
@@ -288,7 +318,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
                                         move_right.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View view) {
-                                                Log.d("LOGTEXT", "onClick: Testi");
+                                                if (position != DataSet.size() - 1) {
+                                                    String[] tempItem = DataSet.get(position);
+                                                    DataSet.remove(position);
+                                                    DataSet.add(position + 1,tempItem);
+                                                    notifyDataSetChanged();
+                                                    notifyItemMoved(position, position + 1);
+                                                }
                                                 change_function_dialog.dismiss();
                                             }
                                         });
@@ -299,12 +335,23 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
 
                                     }
                                 });
-
-                        contextMenu.add(0, RESET_ID, 0, "Leeren")
+                        contextMenu.add(0, DELETE_ID, 0, "Löschen")
                                 .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                                     @Override
                                     public boolean onMenuItemClick(MenuItem item) {
-                                        changeValue(position,"");
+                                        DataSet.remove(position);
+                                        notifyDataSetChanged();
+                                        notifyItemRemoved(position);
+                                        return false;
+                                    }
+                                });
+                        contextMenu.add(0, RESET_ID, 0, "Neue Kachel")
+                                .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                                    @Override
+                                    public boolean onMenuItemClick(MenuItem item) {
+                                        String[] tempTile = {"1","1",""};
+                                        DataSet.add(tempTile);
+                                        notifyItemInserted(DataSet.size() - 1);
                                         return false;
                                     }
                                 });
@@ -313,19 +360,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
                 return false;
             }
         });
-        if(getItemViewType(position) == TYPE_NORMALCARD) {
-            if(!isspace) {
-                ((RecyclerViewHolder) recyclerViewHolder).mButton.setText(value);
-            }
-        } else {
-            ((RecyclerViewHolder) recyclerViewHolder).mButton.setText(value);
-        }
-
-        if(!isspace) {
-            recyclerViewHolder.mButton.setBackgroundResource(Tilecolormanager.returncolor(value));
-        }else {
-            recyclerViewHolder.mButton.setBackgroundResource(Tilecolormanager.returncolor(value));
-        }
     }
 
     @Override

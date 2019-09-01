@@ -2,21 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <Button
-        android:id="@+id/move_down"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginTop="5dp"
-        android:layout_below="@+id/functioninput"
-        android:text="Nach unten verschieben"/>
-
     <Button
         android:id="@+id/move_left"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="5dp"
-        android:layout_below="@+id/move_down"
         android:text="Nach links verschieben"/>
     <Button
         android:id="@+id/move_right"

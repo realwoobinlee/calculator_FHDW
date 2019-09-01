@@ -22,6 +22,7 @@ import com.arasthel.spannedgridlayoutmanager.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import de.fhdw.shared.EvalService;
 import de.fhdw.shared.InternalStorage;
@@ -37,94 +38,38 @@ public class MainActivity extends AppCompatActivity {
     SpannedGridLayoutManager spannedGridLayoutManager;
     //String[][] fdataset = {{"3","1","1"},{"8","2","2"},{"1","1","3"},{"3","1","+"},{"3","1","+"}};
     //String[] felements = {"sizex","sizey","value"};
-    String[][] dataset = {{"1","1","1"},{"2","2","+"}};
+    List<String[]> dataset = new ArrayList<String[]>();
+    //String[][] dataset = {{"1","1","1"},{"2","2","+"}};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        /*
-        internalStorage.writeJSONFile(this,"layoutformat.json",internalStorage.ConvertToJsonArray(fdataset,felements));
-        JSONArray jarray = internalStorage.readJSONFile(this,"layoutformat.json");
-        */
-        /*
-        if (savedInstanceState != null) {
-            System.out.println("LOGTEXT HALLO");
-            SetDatasetFromState(savedInstanceState);
-        }
-        */
+        String[] temp = {"1","1","1"};
+        dataset.add(temp);
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         spannedGridLayoutManager = new SpannedGridLayoutManager(
                 SpannedGridLayoutManager.Orientation.VERTICAL, 10);
         spannedGridLayoutManager.setItemOrderIsStable(true);
         SpaceItemDecorator spaceItemDecorator = new SpaceItemDecorator(10,10,10,10);
-        // mRecyclerView gets LayoutManager
         mRecyclerView.setLayoutManager(spannedGridLayoutManager);
-        // Space Decorator
         mRecyclerView.addItemDecoration(spaceItemDecorator);
-        //mRecyclerView.addOnItemTouchListener();
         recyclerViewAdapter = new RecyclerViewAdapter(dataset);
-        mRecyclerView.invalidate();
-        /*
-        if (savedInstanceState.getBoolean("isinitial")) {
-            //dataset = internalStorage.ConvertToStringArrayArray(jarray,felements);
-            recyclerViewAdapter.insertRenewedDataset(dataset);
-        } else {
-            recyclerViewAdapter.insertRenewedDataset(savedInstanceState.getStringArray("datastate"));
-            dataset = recyclerViewAdapter.PosSizeVal;
-        }
-        */
 
         spannedGridLayoutManager.setSpanSizeLookup(new SpannedGridLayoutManager.SpanSizeLookup(new Function1<Integer, SpanSize>() {
             @Override
             public SpanSize invoke(Integer position) {
-                return new SpanSize(Integer.valueOf(recyclerViewAdapter.DataSet.get(position)[0]),Integer.valueOf(recyclerViewAdapter.DataSet.get(position)[1]));
+                return new SpanSize(Integer.valueOf(dataset.get(position)[0]),Integer.valueOf(dataset.get(position)[1]));
             }
         }));
-        /*
-        if (initialOpen || recyclerViewAdapter.ischanged) {
-            initialOpen = false;
-            recyclerViewAdapter.ischanged = false;
-            spannedGridLayoutManager.setSpanSizeLookup(new SpannedGridLayoutManager.SpanSizeLookup(new Function1<Integer, SpanSize>() {
-                @Override
-                public SpanSize invoke(Integer position) {
-                    return new SpanSize(Integer.valueOf(dataset[position][0]),Integer.valueOf(dataset[position][1]));
-                }
-            }));
-        }
-        */
-        dataset = recyclerViewAdapter.DataSet.toArray(new String[recyclerViewAdapter.DataSet.size()][3]);
+
         mRecyclerView.setAdapter(recyclerViewAdapter);
     }
-    /*
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        String[] DataState = {};
-        for(int i=0;i<dataset.length;i++) {
-            DataState[i] = dataset[i][0] + "," + dataset[i][1] + "," + dataset[i][2];
-            System.out.println("LOGTEXT SAVEINSTANCESTATE: " + DataState[i]);
-        }
-        outState.putStringArray("datastate", DataState);
-        super.onSaveInstanceState(outState);
-    }
-
-    public void SetDatasetFromState(Bundle savedInstanceState) {
-        String[] DataState = savedInstanceState.getStringArray("datastate");
-        for(int i=0;i<dataset.length;i++) {
-            System.out.println("LOGTEXT SETDATASET: " +DataState[i]);
-            dataset[i] = DataState[i].split(",");
-        }
-    }
-        */
     @Override
     protected void onStart() {
         super.onStart();
 
         System.out.println("PRS Test EvalService");
-
-        //A * B + C / D
-        //7 * 11 + 13 / 19
-        //7 11 * 13 19 / +
 
         System.out.println("PRS 7 * 11 + 13 / 19");
 
