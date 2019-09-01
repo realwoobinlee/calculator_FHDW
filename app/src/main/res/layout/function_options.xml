@@ -61,6 +61,13 @@
         android:layout_marginTop="10dp"
         android:layout_below="@+id/multibutton"
         android:text="/"/>
+    <Button
+        android:id="@+id/xtarget"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/divbutton"
+        android:text="x"/>
 
 
 </RelativeLayout>

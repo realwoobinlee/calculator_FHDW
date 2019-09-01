@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="de.fhdw.calculator">
+    package="de.fhdw.hackstreetboys.calculator">
 
     <application
         android:allowBackup="true"
@@ -9,8 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".options_change_functions"></activity>
-        <activity android:name=".MainActivity">
+
+        <activity android:name="de.fhdw.hackstreetboys.calculator.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
