@@ -15,13 +15,12 @@ import android.widget.EditText;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.fhdw.hackstreetboys.calculator.shared.DBLayout;
 import de.fhdw.hackstreetboys.calculator.shared.EvalService;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
 
     private static int TYPE_NORMALCARD = 0;
-    private static int TYPE_OUTPUTCARD = 1;
-
 
     public static final int CHANGE_FUNCTION_ID = 1000;
     public static final int CHANGE_SIZE_ID =1001;
@@ -29,48 +28,48 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
     public static final int DELETE_ID = 1003;
     public static final int RESET_ID = 1004;
 
+    public DBLayout DB;
+
+    // DataSet der Layout, in dem die Daten im Bezug auf Größe und Wert gespeichert sind
     public List<String[]> DataSet;
     // Daten werden hier zur späteren Berechnung gespeichert;
     public ArrayList<String> CalcList = new ArrayList<String>();
     // Ein Ergebnis wird vorläufig hier gespeichert bis eine Kachel zum Abladen des Ergebnises gedrückt wird
     public String CalcResult = "";
-
-    public RecyclerViewAdapter(List<String[]> possizeval) {
+    // Konstructor zum Speichern der Layoutdaten (shallow copy)
+    public RecyclerViewAdapter(List<String[]> possizeval, DBLayout db) {
         DataSet = possizeval;
+        DB = db;
         setHasStableIds(true);
     }
-
+    // Falls sich der Wert einer Kachel geändert hat, wird der DataSet mit dem neuen Wert an der richtigien Position ersetzt
+    // und mit notifyDataSetchanged() wird die Layout neu geladen, um die Layout mit dieser Änderung zu aktualisieren.
     public void changeValue(int position, String newVal) {
         //PosSizeVal[position][2] = newVal;
         String[] tempdata = DataSet.get(position);
-        System.out.println("LOGTEXT HALLO" + DataSet.get(position)[2]);
         tempdata[2] = newVal;
         DataSet.set(position,tempdata);
-
         notifyDataSetChanged();
+        DB.SaveLayoutData(DataSet);
         Log.d("LOGTEXT",DataSet.get(position)[2]);
     }
+    // Mit der selben Logik wie oben bei changeValue aber betroffen sind die Breite und Höhe.
     public void changeSize(int position, String width, String height) {
-        //PosSizeVal[position][0] = width;
-        //PosSizeVal[position][1] = height;
-
         String[] tempdata = DataSet.get(position);
         tempdata[0] = width;
         tempdata[1] = height;
         DataSet.set(position,tempdata);
-
         notifyDataSetChanged();
         notifyItemChanged(position);
-        Log.d("LOGTEXT",DataSet.get(position)[0] + "," + DataSet.get(position)[1]);
+        DB.SaveLayoutData(DataSet);
     }
     @Override
     public int getItemViewType(int position) {
-        if(DataSet.get(position)[2] == "output") {
-            return TYPE_OUTPUTCARD;
-        }
+        // es sendet nur den Wert 0 zurück
         return TYPE_NORMALCARD;
     }
 
+    // dupliziert die RecyclerViewHolder, der in einer eigenen Klasse definiert ist
     @NonNull
     @Override
     public RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
@@ -81,43 +80,43 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
         return recyclerViewHolder;
     }
 
+    // beinhaltet die Logik zur dynamischen Änderung der Kachelfarben, entscheidend ist dabei die Werte von Kacheln
+    //            ,die ClickListener zur Ausführung der mathematischen Funktionen anhand der EvalService-Klasse
+    //            ,ContextMenu mit LongPress, um die unterschiedlichen Funnktionen auszuführen.
     @Override
     public void onBindViewHolder(@NonNull final RecyclerViewHolder recyclerViewHolder, final int position) {
+        // weist den Wert der Kachel von der entsprechenden Position einem lokalen Variable zu
         String value = DataSet.get(position)[2];
-        boolean isspace = value.equals("space");
-        if(getItemViewType(position) == TYPE_NORMALCARD) {
-            if(!isspace) {
-                ((RecyclerViewHolder) recyclerViewHolder).mButton.setText(value);
-            }
-        } else {
-            ((RecyclerViewHolder) recyclerViewHolder).mButton.setText(value);
-        }
+        // Text wird ebenfalls hiermit zugewiesen
+        ((RecyclerViewHolder) recyclerViewHolder).mButton.setText(value);
+        // diese ist für die Farbenauswahl zuständig
+        recyclerViewHolder.mButton.setBackgroundResource(Tilecolormanager.returncolor(value));
 
-        if(!isspace) {
-            recyclerViewHolder.mButton.setBackgroundResource(Tilecolormanager.returncolor(value));
-        }else {
-            recyclerViewHolder.mButton.setBackgroundResource(Tilecolormanager.returncolor(value));
-        }
-
+        // Zur Ausführung der mathematischen Berechnungen
         recyclerViewHolder.mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //System.out.println("LOGTEXT: " + DataSet.get(position)[0] + "," +DataSet.get(position)[1] + "," +DataSet.get(position)[2]);
                 String tempValue = DataSet.get(position)[2];
+                System.out.println("LOGTEXT VALUE: " + tempValue);
+                if (CalcList.size() > 0) {
+                    System.out.println("LOGTEXT STORAGE: " + CalcList.get(0));
+                }
+
+                // wenn CalcResult nicht leer ist und eine Kachel angetastet wird, ersetzt der im CalcResult abgespeicherte Wert
+                // den Wert von der angeklickten Kachel.
                 if (CalcResult != "") {
+                    System.out.println("LOGTEXT Result: " + CalcResult);
                     changeValue(position,CalcResult);
-                    CalcResult = "";
-                }else {
-                    if ( tempValue != "=" && tempValue != "") {
-                        CalcList.add(tempValue);
-                    } else if (tempValue == "=") {
-                        if (CalcList.contains("x")){
-                            CalcResult = EvalService.solveEquation(CalcList,"x","-100000","100000");
-                        }else {
-                            CalcResult = EvalService.calculateEquation(CalcList);
-                        };
-                        CalcList.clear();
-                    }
+                    CalcResult = ""; // CalcResult wird neu initialisiert
+                } else if (tempValue.equals("=")) {
+                    if (CalcList.contains("x")){
+                        CalcResult = EvalService.solveEquation(CalcList,"x","-100000","100000");
+                    }else {
+                        CalcResult = EvalService.calculateEquation(CalcList);
+                    };
+                    CalcList.clear();
+                } else if ( tempValue != "=" && tempValue != "") {
+                    CalcList.add(tempValue);
                 }
             }
         });
@@ -304,6 +303,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
                                                     DataSet.add(position - 1,tempItem);
                                                     notifyDataSetChanged();
                                                     notifyItemMoved(position, position - 1);
+                                                    DB.SaveLayoutData(DataSet);
                                                 }
                                                 change_function_dialog.dismiss();
                                             }
@@ -320,6 +320,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
                                                     DataSet.add(position + 1,tempItem);
                                                     notifyDataSetChanged();
                                                     notifyItemMoved(position, position + 1);
+                                                    DB.SaveLayoutData(DataSet);
                                                 }
                                                 change_function_dialog.dismiss();
                                             }
@@ -338,6 +339,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
                                         DataSet.remove(position);
                                         notifyDataSetChanged();
                                         notifyItemRemoved(position);
+                                        DB.SaveLayoutData(DataSet);
                                         return false;
                                     }
                                 });
@@ -348,6 +350,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
                                         String[] tempTile = {"1","1",""};
                                         DataSet.add(tempTile);
                                         notifyItemInserted(DataSet.size() - 1);
+                                        DB.SaveLayoutData(DataSet);
                                         return false;
                                     }
                                 });
