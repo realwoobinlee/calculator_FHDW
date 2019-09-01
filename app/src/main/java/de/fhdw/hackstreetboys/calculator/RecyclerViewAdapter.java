@@ -109,7 +109,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
                     CalcResult = "";
                 }else {
                     if ( tempValue != "=" && tempValue != "") {
-                        CalcList.add("(" + tempValue + ")");
+                        CalcList.add(tempValue);
                     } else if (tempValue == "=") {
                         if (CalcList.contains("x")){
                             CalcResult = EvalService.solveEquation(CalcList,"x","-100000","100000");
