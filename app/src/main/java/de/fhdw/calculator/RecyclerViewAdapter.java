@@ -28,6 +28,7 @@ import com.arasthel.spannedgridlayoutmanager.SpannedGridLayoutManager;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import de.fhdw.shared.InternalStorage;
 
@@ -43,30 +44,45 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
     public static final int DELETE_ID = 1003;
     public static final int RESET_ID = 1004;
 
-    public String[] DataState;
     // HashMap key: Long(Position) Values: String(Size ex. 1:3), String(Value ex.'+', 'output'
     //public HashMap<Long,String[]> MapPosSizeVal = new HashMap<Long,String[]>();
     //public ArrayList<String[]> DataSet = new ArrayList<String[]>();
-    public String[][] PosSizeVal; // = {{"1","1","-"},{"2","2","9"}};
-
+    //public String[][] PosSizeVal; // = {{"1","1","-"},{"2","2","9"}};
+    public List<String[]> DataSet;
     //must be tested!!!
 
     public RecyclerViewAdapter(String[][] possizeval) {
-        PosSizeVal = possizeval;
+        //PosSizeVal = possizeval;
+        DataSet = Arrays.asList(possizeval);
         setHasStableIds(true);
     }
 
-    public void updateView() {
-        notifyDataSetChanged();
-    }
-
     public void changeValue(int position, String newVal) {
-        PosSizeVal[position][2] = newVal;
-        Log.d("LOGTEXT",PosSizeVal[position][2]);
+        //PosSizeVal[position][2] = newVal;
+        String[] tempdata = DataSet.get(position);
+        System.out.println("LOGTEXT HALLO" + DataSet.get(position)[2]);
+        tempdata[2] = newVal;
+        DataSet.set(position,tempdata);
+
+        notifyDataSetChanged();
+        Log.d("LOGTEXT",DataSet.get(position)[2]);
+    }
+    public void changeSize(int position, String width, String height) {
+        //PosSizeVal[position][0] = width;
+        //PosSizeVal[position][1] = height;
+
+        String[] tempdata = DataSet.get(position);
+        tempdata[0] = width;
+        tempdata[1] = height;
+        DataSet.set(position,tempdata);
+
+        notifyDataSetChanged();
+        notifyItemChanged(position);
+        Log.d("LOGTEXT",DataSet.get(position)[0] + "," + DataSet.get(position)[1]);
     }
     @Override
     public int getItemViewType(int position) {
-        if(PosSizeVal[position][2] == "output") {
+        if(DataSet.get(position)[2] == "output") {
             return TYPE_OUTPUTCARD;
         }
         return TYPE_NORMALCARD;
@@ -84,14 +100,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull final RecyclerViewHolder recyclerViewHolder, final int position) {
-        String value = PosSizeVal[position][2].toString();
+        String value = DataSet.get(position)[2].toString();
         //String value = DataSet.get(position)[2].toString();
         boolean isspace = value.equals("space");
 
         recyclerViewHolder.mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("LOGTEXT: " + PosSizeVal[position][2]);
+                System.out.println("LOGTEXT: " + DataSet.get(position)[0] + "," +DataSet.get(position)[1] + "," +DataSet.get(position)[2]);
             }
         });
         recyclerViewHolder.mButton.setOnLongClickListener(new View.OnLongClickListener() {
@@ -115,7 +131,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
                                         @Override
                                         public void onClick(View view) {
                                             changeValue(position,functioninput.getText().toString());
-                                            notifyDataSetChanged();
                                             change_function_dialog.dismiss();
                                         }
                                     });
@@ -126,7 +141,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
                                         @Override
                                         public void onClick(View view) {
                                             changeValue(position,"=");
-                                            notifyDataSetChanged();
                                             change_function_dialog.dismiss();
                                         }
                                     });
@@ -137,8 +151,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
                                         @Override
                                         public void onClick(View view) {
                                             changeValue(position,"+");
-                                            notifyDataSetChanged();
-                                            //notifyDataSetChanged();
                                             change_function_dialog.dismiss();
                                         }
                                     });
@@ -149,7 +161,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
                                         @Override
                                         public void onClick(View view) {
                                             changeValue(position,"-");
-                                            notifyDataSetChanged();
                                             change_function_dialog.dismiss();
                                         }
                                     });
@@ -160,7 +171,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
                                         @Override
                                         public void onClick(View view) {
                                             changeValue(position,"*");
-                                            notifyDataSetChanged();
                                             change_function_dialog.dismiss();
                                         }
                                     });
@@ -171,7 +181,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
                                         @Override
                                         public void onClick(View view) {
                                             changeValue(position,"/");
-                                            notifyDataSetChanged();
                                             change_function_dialog.dismiss();
                                         }
                                     });
@@ -188,16 +197,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
                                         change_size_dialog.setContentView(R.layout.options_change_size);
                                         change_size_dialog.setTitle("größe ändern");
 
-                                        //Ändert die Kachel zu einer vordefinierten Größe Xlarge (3x4)
+                                        //Ändert die Kachel zu einer vordefinierten Größe Xlarge (4x3)
                                         Button dialog_Xlarge = (Button) change_size_dialog.findViewById(R.id.xlarge);
                                         dialog_Xlarge.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View view) {
                                                 Log.d("LOGTEXT", "onClick: xlarge");
+                                                changeSize(position,"4","3");
                                                 change_size_dialog.dismiss();
                                             }
-
-
                                         });
 
                                         //Ändert die Kachel zu einer vordefinierten Größe large (2x2)
@@ -206,6 +214,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
                                             @Override
                                             public void onClick(View view) {
                                                 Log.d("LOGTEXT", "onClick: large");
+                                                changeSize(position,"2","2");
                                                 change_size_dialog.dismiss();
                                             }
 
@@ -214,10 +223,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
 
                                         //Ändert die Kachel zu einer vordefinierten Größe medium (1x2)
                                         Button dialog_medium = (Button) change_size_dialog.findViewById(R.id.medium);
-                                        dialog_large.setOnClickListener(new View.OnClickListener() {
+                                        dialog_medium.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View view) {
                                                 Log.d("LOGTEXT", "onClick: medium");
+                                                changeSize(position,"1","2");
                                                 change_size_dialog.dismiss();
                                             }
 
@@ -226,22 +236,24 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
 
                                         //Ändert die Kachel zu einer vordefinierten Größe small (1x1)
                                         Button dialog_small = (Button) change_size_dialog.findViewById(R.id.small);
-                                        dialog_large.setOnClickListener(new View.OnClickListener() {
+                                        dialog_small.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View view) {
                                                 Log.d("LOGTEXT", "onClick: medium");
+                                                changeSize(position,"1","1");
                                                 change_size_dialog.dismiss();
                                             }
 
 
                                         });
 
-                                        //Ändert die Kachel zu einer vordefinierten Größe wide (1x4)
+                                        //Ändert die Kachel zu einer vordefinierten Größe wide (4x1)
                                         Button dialog_wide = (Button) change_size_dialog.findViewById(R.id.wide);
-                                        dialog_large.setOnClickListener(new View.OnClickListener() {
+                                        dialog_wide.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View view) {
                                                 Log.d("LOGTEXT", "onClick: medium");
+                                                changeSize(position,"4","1");
                                                 change_size_dialog.dismiss();
                                             }
 
@@ -288,22 +300,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
                                     }
                                 });
 
-                        //Löscht die Kachel
-                        contextMenu.add(0, DELETE_ID, 0, "Löschen")
+                        contextMenu.add(0, RESET_ID, 0, "Leeren")
                                 .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                                     @Override
                                     public boolean onMenuItemClick(MenuItem item) {
-                                        //fucntion
-                                        return false;
-                                    }
-                                });
-
-                        //resettet das Layout zum default layout
-                        contextMenu.add(0, RESET_ID, 0, "Reset Layout")
-                                .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                                    @Override
-                                    public boolean onMenuItemClick(MenuItem item) {
-                                        //fucntion
+                                        changeValue(position,"");
                                         return false;
                                     }
                                 });
@@ -329,7 +330,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
 
     @Override
     public int getItemCount() {
-        return PosSizeVal.length;
+        return DataSet.size();
     }
 
     @Override

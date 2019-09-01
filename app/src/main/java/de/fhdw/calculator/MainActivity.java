@@ -47,33 +47,12 @@ public class MainActivity extends AppCompatActivity {
         internalStorage.writeJSONFile(this,"layoutformat.json",internalStorage.ConvertToJsonArray(fdataset,felements));
         JSONArray jarray = internalStorage.readJSONFile(this,"layoutformat.json");
         */
+        /*
         if (savedInstanceState != null) {
             System.out.println("LOGTEXT HALLO");
             SetDatasetFromState(savedInstanceState);
         }
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        String[] DataState = {};
-        for(int i=0;i<dataset.length;i++) {
-            DataState[i] = dataset[i][0] + "," + dataset[i][1] + "," + dataset[i][2];
-            System.out.println(DataState[i]);
-        }
-        outState.putStringArray("datastate", DataState);
-        super.onSaveInstanceState(outState);
-    }
-
-    public void SetDatasetFromState(Bundle savedInstanceState) {
-        String[] DataState = savedInstanceState.getStringArray("datastate");
-        for(int i=0;i<dataset.length;i++) {
-            dataset[i] = DataState[i].split(",");
-        }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
+        */
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         spannedGridLayoutManager = new SpannedGridLayoutManager(
                 SpannedGridLayoutManager.Orientation.VERTICAL, 10);
@@ -85,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.addItemDecoration(spaceItemDecorator);
         //mRecyclerView.addOnItemTouchListener();
         recyclerViewAdapter = new RecyclerViewAdapter(dataset);
-        recyclerViewAdapter.updateView();
+        mRecyclerView.invalidate();
         /*
         if (savedInstanceState.getBoolean("isinitial")) {
             //dataset = internalStorage.ConvertToStringArrayArray(jarray,felements);
@@ -99,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         spannedGridLayoutManager.setSpanSizeLookup(new SpannedGridLayoutManager.SpanSizeLookup(new Function1<Integer, SpanSize>() {
             @Override
             public SpanSize invoke(Integer position) {
-                return new SpanSize(Integer.valueOf(recyclerViewAdapter.PosSizeVal[position][0]),Integer.valueOf(recyclerViewAdapter.PosSizeVal[position][1]));
+                return new SpanSize(Integer.valueOf(recyclerViewAdapter.DataSet.get(position)[0]),Integer.valueOf(recyclerViewAdapter.DataSet.get(position)[1]));
             }
         }));
         /*
@@ -114,8 +93,32 @@ public class MainActivity extends AppCompatActivity {
             }));
         }
         */
-        dataset = recyclerViewAdapter.PosSizeVal;
+        dataset = recyclerViewAdapter.DataSet.toArray(new String[recyclerViewAdapter.DataSet.size()][3]);
         mRecyclerView.setAdapter(recyclerViewAdapter);
+    }
+    /*
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        String[] DataState = {};
+        for(int i=0;i<dataset.length;i++) {
+            DataState[i] = dataset[i][0] + "," + dataset[i][1] + "," + dataset[i][2];
+            System.out.println("LOGTEXT SAVEINSTANCESTATE: " + DataState[i]);
+        }
+        outState.putStringArray("datastate", DataState);
+        super.onSaveInstanceState(outState);
+    }
+
+    public void SetDatasetFromState(Bundle savedInstanceState) {
+        String[] DataState = savedInstanceState.getStringArray("datastate");
+        for(int i=0;i<dataset.length;i++) {
+            System.out.println("LOGTEXT SETDATASET: " +DataState[i]);
+            dataset[i] = DataState[i].split(",");
+        }
+    }
+        */
+    @Override
+    protected void onStart() {
+        super.onStart();
 
         System.out.println("PRS Test EvalService");
 
