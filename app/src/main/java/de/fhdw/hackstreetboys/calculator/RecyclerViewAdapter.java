@@ -30,20 +30,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
 
     public DBCalculator DB;
 
-    // DataSet der Layout, in dem die Daten im Bezug auf Größe und Wert gespeichert sind
+    // Dataset of Layout where three types of data are being stored from MainActivity
+    // Key= Position  Value= {Width, Height, Value}
     public List<String[]> DataSet;
-    // Daten werden hier zur späteren Berechnung gespeichert;
+    // the Value data will be temporarily in the Arraylist of CalcList for the Calculation
     public ArrayList<String> CalcList = new ArrayList<String>();
-    // Ein Ergebnis wird vorläufig hier gespeichert bis eine Kachel zum Abladen des Ergebnises gedrückt wird
+    // the Result of Calculation stays at the local variable of CalcResult which will be emitted when = is pressed
     public String CalcResult = "";
-    // Konstructor zum Speichern der Layoutdaten (shallow copy)
+    // Constructor: possizeval using shallow Copy and DBCaculator to save the data later on
     public RecyclerViewAdapter(List<String[]> possizeval, DBCalculator db) {
         DataSet = possizeval;
         DB = db;
-        setHasStableIds(true);
+        setHasStableIds(true); // stable IDs will be distributed
     }
-    // Falls sich der Wert einer Kachel geändert hat, wird der DataSet mit dem neuen Wert an der richtigien Position ersetzt
-    // und mit notifyDataSetchanged() wird die Layout neu geladen, um die Layout mit dieser Änderung zu aktualisieren.
+    // In Case of Value Changes of a Tile, this function will be executed in order to save the data in the database,
+    // renew the dataset and make the change visibel on the layout of MainActivity
     public void changeValue(int position, String newVal) {
         //PosSizeVal[position][2] = newVal;
         String[] tempdata = DataSet.get(position);
@@ -53,7 +54,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
         DB.SaveLayoutData(DataSet);
         Log.d("LOGTEXT",DataSet.get(position)[2]);
     }
-    // Mit der selben Logik wie oben bei changeValue aber betroffen sind die Breite und Höhe.
+    // with the same logic above (changeValue) for the width and height
     public void changeSize(int position, String width, String height) {
         String[] tempdata = DataSet.get(position);
         tempdata[0] = width;
@@ -63,13 +64,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
         notifyItemChanged(position);
         DB.SaveLayoutData(DataSet);
     }
+    // must be written for RecyclerLayout
     @Override
     public int getItemViewType(int position) {
         // es sendet nur den Wert 0 zurück
         return TYPE_NORMALCARD;
     }
-
-    // dupliziert die RecyclerViewHolder, der in einer eigenen Klasse definiert ist
+    // duplicate (inflate) the predefined View with each Values, Positions and Sizes
     @NonNull
     @Override
     public RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
@@ -80,42 +81,42 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
         return recyclerViewHolder;
     }
 
-    // beinhaltet die Logik zur dynamischen Änderung der Kachelfarben, entscheidend ist dabei die Werte von Kacheln
-    //            ,die ClickListener zur Ausführung der mathematischen Funktionen anhand der EvalService-Klasse
-    //            ,ContextMenu mit LongPress, um die unterschiedlichen Funnktionen auszuführen.
+    // contains the program logic for dynamic Changes of Tiles Colors, Values
+    //            ,the ClickListener to execute mathmatic funtions with EvalService
+    //            ,ContextMenu with LongPress, in order to make some changes such as size, value and position
     @Override
     public void onBindViewHolder(@NonNull final RecyclerViewHolder recyclerViewHolder, final int position) {
-        // weist den Wert der Kachel von der entsprechenden Position einem lokalen Variable zu
+        // store the value of dataset on the postion into a local variable
         String value = DataSet.get(position)[2];
-        // Text wird ebenfalls hiermit zugewiesen
+        // Text will be set on the Button surface
         ((RecyclerViewHolder) recyclerViewHolder).mButton.setText(value);
-        // diese ist für die Farbenauswahl zuständig
+        // this line of code is responsible for the color choice depending on the Tile Value
         recyclerViewHolder.mButton.setBackgroundResource(Tilecolormanager.returncolor(value));
-
-        // Zur Ausführung der mathematischen Berechnungen
+        // To Execute mathmatic functions
         recyclerViewHolder.mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String tempValue = DataSet.get(position)[2];
-
-                // wenn CalcResult nicht leer ist und eine Kachel angetastet wird, ersetzt der im CalcResult abgespeicherte Wert
-                // den Wert von der angeklickten Kachel.
+                // when the CalcResult is not empty and a tile has been touched, the Value of the tile will be
+                // replaced with the Result Value (CalcaResult)
                 if (CalcResult != "") {
                     changeValue(position,CalcResult);
                     DB.SaveHistoryData(CalcList,CalcResult);
                     CalcList.clear();
-                    CalcResult = ""; // CalcResult wird neu initialisiert
+                    CalcResult = ""; // CalcValue is being reset
                 } else if (tempValue.equals("=")) {
+                    // when the CalcList contains x then the value of the X will be evaluated
                     if (CalcList.contains("x")){
                         CalcResult = EvalService.solveEquation(CalcList,"x","-100000","100000");
                     }else {
                         CalcResult = EvalService.calculateEquation(CalcList);
                     };
                 } else if ( tempValue != "=" && tempValue != "") {
-                    CalcList.add(tempValue);
+                    CalcList.add(tempValue); // when the tile is neither = nor empty, the tile value will be added in to the list
                 }
             }
-        }); //t
+        });
+        // SetOnLongClickListener
         recyclerViewHolder.mButton.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(final View longclickview) {
