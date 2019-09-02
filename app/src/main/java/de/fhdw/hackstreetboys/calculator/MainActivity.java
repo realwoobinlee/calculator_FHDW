@@ -4,7 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 
-import de.fhdw.hackstreetboys.calculator.shared.DBLayout;
+import de.fhdw.hackstreetboys.calculator.shared.DBCalculator;
 import de.fhdw.hackstreetboys.calculator.spannedgridlayoutmanager.*;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     InternalStorage internalStorage = new InternalStorage();
     SpannedGridLayoutManager spannedGridLayoutManager;
     List<String[]> dataset = new ArrayList<String[]>();
-    DBLayout db = new DBLayout(this);
+    DBCalculator db = new DBCalculator(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

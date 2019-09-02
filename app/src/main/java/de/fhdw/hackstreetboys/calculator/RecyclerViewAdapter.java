@@ -15,7 +15,7 @@ import android.widget.EditText;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.fhdw.hackstreetboys.calculator.shared.DBLayout;
+import de.fhdw.hackstreetboys.calculator.shared.DBCalculator;
 import de.fhdw.hackstreetboys.calculator.shared.EvalService;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
@@ -28,7 +28,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
     public static final int DELETE_ID = 1003;
     public static final int RESET_ID = 1004;
 
-    public DBLayout DB;
+    public DBCalculator DB;
 
     // DataSet der Layout, in dem die Daten im Bezug auf Größe und Wert gespeichert sind
     public List<String[]> DataSet;
@@ -37,7 +37,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
     // Ein Ergebnis wird vorläufig hier gespeichert bis eine Kachel zum Abladen des Ergebnises gedrückt wird
     public String CalcResult = "";
     // Konstructor zum Speichern der Layoutdaten (shallow copy)
-    public RecyclerViewAdapter(List<String[]> possizeval, DBLayout db) {
+    public RecyclerViewAdapter(List<String[]> possizeval, DBCalculator db) {
         DataSet = possizeval;
         DB = db;
         setHasStableIds(true);
@@ -97,16 +97,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
             @Override
             public void onClick(View v) {
                 String tempValue = DataSet.get(position)[2];
-                System.out.println("LOGTEXT VALUE: " + tempValue);
-                if (CalcList.size() > 0) {
-                    System.out.println("LOGTEXT STORAGE: " + CalcList.get(0));
-                }
 
                 // wenn CalcResult nicht leer ist und eine Kachel angetastet wird, ersetzt der im CalcResult abgespeicherte Wert
                 // den Wert von der angeklickten Kachel.
                 if (CalcResult != "") {
-                    System.out.println("LOGTEXT Result: " + CalcResult);
                     changeValue(position,CalcResult);
+                    DB.SaveHistoryData(CalcList,CalcResult);
+                    CalcList.clear();
                     CalcResult = ""; // CalcResult wird neu initialisiert
                 } else if (tempValue.equals("=")) {
                     if (CalcList.contains("x")){
@@ -114,7 +111,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
                     }else {
                         CalcResult = EvalService.calculateEquation(CalcList);
                     };
-                    CalcList.clear();
                 } else if ( tempValue != "=" && tempValue != "") {
                     CalcList.add(tempValue);
                 }
