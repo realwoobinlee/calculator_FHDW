@@ -115,7 +115,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
                     CalcList.add(tempValue);
                 }
             }
-        });
+        }); //t
         recyclerViewHolder.mButton.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(final View longclickview) {
