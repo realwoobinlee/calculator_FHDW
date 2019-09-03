@@ -50,6 +50,7 @@ public class Tilecolormanager {
                 usage.equals("x")||
                 usage.equals("electronm")||
                 usage.equals("electronc")||
+                usage.equals("[g]")||
                 usage.equals("")) {
             return R.drawable.constant_drawable;
         }else if (usage.equals("view")){

@@ -11,9 +11,9 @@ import de.fhdw.hackstreetboys.calculator.shared.DBCalculator;
 import de.fhdw.hackstreetboys.calculator.spannedgridlayoutmanager.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import de.fhdw.hackstreetboys.calculator.shared.InternalStorage;
 import kotlin.jvm.functions.Function1;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -89,74 +89,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     // returns Initial Layout
     private List<String[]> InitialLayout() {
         List<String[]> tempList = new ArrayList<String[]>();
-        for (int i=0; i < 70; i++) {
-            String[] tempElem = {"1","1",""};
-            switch (i+1) {
-                case 1:
-                    tempElem[2] = "1";
-                    tempList.add(tempElem);
-                    break;
-                case 2:
-                    tempElem[2] = "2";
-                    tempList.add(tempElem);
-                    break;
-                case 3:
-                    tempElem[2] = "3";
-                    tempList.add(tempElem);
-                    break;
-                case 4:
-                    tempElem[2] = "+";
-                    tempList.add(tempElem);
-                    break;
-                case 11:
-                    tempElem[2] = "4";
-                    tempList.add(tempElem);
-                    break;
-                case 12:
-                    tempElem[2] = "5";
-                    tempList.add(tempElem);
-                    break;
-                case 13:
-                    tempElem[2] = "6";
-                    tempList.add(tempElem);
-                    break;
-                case 14:
-                    tempElem[2] = "-";
-                    tempList.add(tempElem);
-                    break;
-                case 21:
-                    tempElem[2] = "7";
-                    tempList.add(tempElem);
-                    break;
-                case 22:
-                    tempElem[2] = "8";
-                    tempList.add(tempElem);
-                    break;
-                case 23:
-                    tempElem[2] = "9";
-                    tempList.add(tempElem);
-                    break;
-                case 24:
-                    tempElem[2] = "*";
-                    tempList.add(tempElem);
-                    break;
-                case 32:
-                    tempElem[2] = "0";
-                    tempList.add(tempElem);
-                    break;
-                case 33:
-                    tempElem[2] = "=";
-                    tempList.add(tempElem);
-                    break;
-                case 34:
-                    tempElem[2] = "/";
-                    tempList.add(tempElem);
-                    break;
-                default:
-                    tempList.add(tempElem);
-                    break;
-            }
-        }
-        return tempList;
+        String[][] tempdataset = {{"4","1","result"},{"4","3","result"},{"1","1","x"},{"1","1","pi"},
+                {"1","1","7"},{"1","1","8"},{"1","1","9"},{"1","1","/"},{"1","1","e"},{"1","1","[au]"},
+                {"1","1","4"},{"1","1","5"},{"1","1","6"},{"1","1","*"},{"1","1","[g]"},{"1","1","[ c]"},
+                {"1","1","1"},{"1","1","2"},{"1","1","3"},{"1","1","-"},{"1","1","result"},{"1","1","result"},{"1","1","result"},{"1","1","result"},{"1","1","0.1"},{"1","1","0.01"},
+                {"1","1","10"},{"1","1","100"},{"1","1","1000"},{"1","1","+"},{"1","1","="},{"1","1","result"},{"1","1","result"},{"1","1","result"},{"1","1","result"},{"1","1","result"},
+                {"1","1",""},{"1","1",""},{"1","1",""},{"1","1",""},{"1","1",""},{"1","1",""},{"1","1",""},{"1","1",""},{"1","1",""},{"1","1",""},
+                {"1","1",""},{"1","1",""},{"1","1",""},{"1","1",""},{"1","1",""},{"1","1",""},{"1","1",""},{"1","1",""},{"1","1",""},{"1","1",""},
+        };
+        return Arrays.asList(tempdataset);
     }
 }
