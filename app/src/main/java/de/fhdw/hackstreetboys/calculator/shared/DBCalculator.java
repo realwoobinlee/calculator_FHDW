@@ -12,9 +12,11 @@ import java.util.List;
 
 public class DBCalculator extends SQLiteOpenHelper {
 
+    //database data
     public static final String DATABASE_NAME = "DB.db";
     private static final int DATABASE_VERSION = 1;
 
+    // tables data
     public static final String LAYOUT_TABLE_NAME = "layout";
     public static final String LAYOUT_COLUMN_POS = "position";
     public static final String LAYOUT_COLUMN_WIDTH = "width";
@@ -25,6 +27,7 @@ public class DBCalculator extends SQLiteOpenHelper {
     public static final String HISTORY_COLUMN_TERM = "term";
     public static final String HISTORY_COLUMN_RESULT = "result";
 
+    //sql statements to create tables in the database
     static final String DATABASE_LAYOUT_CREATE = "create table if not exists layout(position String primary key , " +
             "width text, height text, value text); ";
     static final String DATABASE_HISTORY_CREATE = "create table if not exists history( term text, result text); ";
@@ -33,7 +36,7 @@ public class DBCalculator extends SQLiteOpenHelper {
         super(context, LAYOUT_TABLE_NAME, null, DATABASE_VERSION);
     }
 
-    // erstellt eine Datenbank falls noch keine existiert, überschreibt die Methode von SQLiteOpenHelper
+    // creates the two tables called "history" and "layout" on creation of the database
     @Override
     public void onCreate(SQLiteDatabase _db) {
         try {
@@ -44,13 +47,17 @@ public class DBCalculator extends SQLiteOpenHelper {
         }
     }
 
+    /*
+    method to upgrade the database,
+    not really intended to be used since changes and complexity of data are limited
+    */
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         onCreate(db);
     }
 
-    //Methode um die Daten des Layouts zu speichern, unabhängig von der Anzahl der Kacheln etc.
+    //Method in order to save layout data for as many tiles as necessary
 
     public void SaveLayoutData (List<String[]> layoutdata)
     {
@@ -70,7 +77,9 @@ public class DBCalculator extends SQLiteOpenHelper {
         db.close();
     }
 
-    //Da die Ausgabe der Stringliste nicht geklappt hat, gibt die Methode nichts zurück
+    /* Since returning a String-List didn't work, it is being
+     retrieved without a distinct return value */
+
     public /* List<String[]>*/ void RetrieveLayoutData(List<String[]> dataList){
         SQLiteDatabase db= this.getReadableDatabase();
         Cursor cursor=db.rawQuery("Select *  from " + LAYOUT_TABLE_NAME, null);
@@ -83,6 +92,8 @@ public class DBCalculator extends SQLiteOpenHelper {
         }
         db.close();
     }
+
+    //Method to save Data into the history table. Does not require indexing for our purposes
 
     public void SaveHistoryData (List<String> termData, String resultData)
     {
@@ -101,6 +112,8 @@ public class DBCalculator extends SQLiteOpenHelper {
 
         db.close();
     }
+
+    //method to retrieve data from the history table
 
     public void RetrieveHistoryData(List<String[]> dataList){
         SQLiteDatabase db= this.getReadableDatabase();
