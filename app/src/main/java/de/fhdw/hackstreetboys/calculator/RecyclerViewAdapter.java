@@ -124,13 +124,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
                     @Override
                     public void onCreateContextMenu(ContextMenu contextMenu, final View contextview, ContextMenu.ContextMenuInfo contextMenuInfo) {
                         contextMenu.setHeaderTitle("Optionen");
-                        contextMenu.add(0, CHANGE_FUNCTION_ID,0, "Funktion ändern")
+                        contextMenu.add(0, CHANGE_FUNCTION_ID,0, "Funktion aendern")
                             .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                                 @Override
                                 public boolean onMenuItemClick(MenuItem item) {
                                     final Dialog change_function_dialog = new Dialog(contextview.getContext());
                                     change_function_dialog.setContentView(R.layout.function_options);
-                                    change_function_dialog.setTitle("Funktionen ändern");
+                                    change_function_dialog.setTitle("Funktionen aendern");
                                     final EditText functioninput = (EditText) change_function_dialog.findViewById(R.id.functioninput);
                                     //Schreibt den eigegebenen Text im custom Dialog in die Kachel und schließt den custom Dialog
                                     Button confirmfunction = (Button) change_function_dialog.findViewById(R.id.confirmfunction);
@@ -142,7 +142,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
                                         }
                                     });
 
-                                    //Ändert die Funktionalität einer Kachel zu einer ergebnis Kachel
+                                    //changes functionality of the tile to a result tile
                                     Button resultbutton = (Button) change_function_dialog.findViewById(R.id.resultbutton);
                                     resultbutton.setOnClickListener(new View.OnClickListener() {
                                         @Override
@@ -152,7 +152,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
                                         }
                                     });
 
-                                    //Ändert die Funktionalität einer Kachel dem Operand +
+                                    //changes functionality of the tile to a + tile
                                     Button plusbutton = (Button) change_function_dialog.findViewById(R.id.plusbutton);
                                     plusbutton.setOnClickListener(new View.OnClickListener() {
                                         @Override
@@ -162,7 +162,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
                                         }
                                     });
 
-                                    //Ändert die Funktionalität einer Kachel dem Operand -
+                                    //changes functionality of the tile to a - tile
                                     Button minusbutton = (Button) change_function_dialog.findViewById(R.id.minusbutton);
                                     minusbutton.setOnClickListener(new View.OnClickListener() {
                                         @Override
@@ -172,7 +172,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
                                         }
                                     });
 
-                                    //Ändert die Funktionalität einer Kachel dem Operand *
+                                    //changes functionality of the tile to a * tile
                                     Button multibutton = (Button) change_function_dialog.findViewById(R.id.multibutton);
                                     multibutton.setOnClickListener(new View.OnClickListener() {
                                         @Override
@@ -182,7 +182,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
                                         }
                                     });
 
-                                    //Ändert die Funktionalität einer Kachel dem Operand /
+                                    //changes functionality of the tile to a / tile
                                     Button divbutton = (Button) change_function_dialog.findViewById(R.id.divbutton);
                                     divbutton.setOnClickListener(new View.OnClickListener() {
                                         @Override
@@ -205,15 +205,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
                                     return false;
                                 }
                             });
-                        contextMenu.add(0, CHANGE_SIZE_ID,0 , "Größe ändern")
+                        contextMenu.add(0, CHANGE_SIZE_ID,0 , "Größe aendern")
                                 .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                                     @Override
                                     public boolean onMenuItemClick(MenuItem item) {
                                         final Dialog change_size_dialog = new Dialog(contextview.getContext());
                                         change_size_dialog.setContentView(R.layout.options_change_size);
-                                        change_size_dialog.setTitle("größe ändern");
+                                        change_size_dialog.setTitle("größe aendern");
 
-                                        //Ändert die Kachel zu einer vordefinierten Größe Xlarge (4x3)
+                                        //changes Tile to size Xlarge (4x3)
                                         Button dialog_Xlarge = (Button) change_size_dialog.findViewById(R.id.xlarge);
                                         dialog_Xlarge.setOnClickListener(new View.OnClickListener() {
                                             @Override
@@ -224,7 +224,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
                                             }
                                         });
 
-                                        //Ändert die Kachel zu einer vordefinierten Größe large (2x2)
+                                        //changes Tile to size large (2x2)
                                         Button dialog_large = (Button) change_size_dialog.findViewById(R.id.large);
                                         dialog_large.setOnClickListener(new View.OnClickListener() {
                                             @Override
@@ -237,7 +237,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
 
                                         });
 
-                                        //Ändert die Kachel zu einer vordefinierten Größe medium (1x2)
+                                        //changes Tile to size medium (1x2)
                                         Button dialog_medium = (Button) change_size_dialog.findViewById(R.id.medium);
                                         dialog_medium.setOnClickListener(new View.OnClickListener() {
                                             @Override
@@ -250,7 +250,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
 
                                         });
 
-                                        //Ändert die Kachel zu einer vordefinierten Größe small (1x1)
+                                        //changes Tile to size small (1x1)
                                         Button dialog_small = (Button) change_size_dialog.findViewById(R.id.small);
                                         dialog_small.setOnClickListener(new View.OnClickListener() {
                                             @Override
@@ -263,7 +263,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
 
                                         });
 
-                                        //Ändert die Kachel zu einer vordefinierten Größe wide (4x1)
+                                        //changes Tile to size wide (4x1)
                                         Button dialog_wide = (Button) change_size_dialog.findViewById(R.id.wide);
                                         dialog_wide.setOnClickListener(new View.OnClickListener() {
                                             @Override
@@ -281,15 +281,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
                                         return false;
                                     }
                                 });
-                        contextMenu.add(0, CHANGE_POSITION_ID,0 , "Position ändern")
+                        contextMenu.add(0, CHANGE_POSITION_ID,0 , "Position aendern")
                                 .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                                     @Override
                                     public boolean onMenuItemClick(MenuItem item) {
                                         final Dialog change_function_dialog = new Dialog(contextview.getContext());
                                         change_function_dialog.setContentView(R.layout.options_change_position);
-                                        change_function_dialog.setTitle("Position ändern");
+                                        change_function_dialog.setTitle("Position aendern");
 
-                                        //verschiebt die Kachel nach links
+                                        //moves tile to the left
                                         Button move_left = (Button) change_function_dialog.findViewById(R.id.move_left);
                                         move_left.setOnClickListener(new View.OnClickListener() {
                                             @Override
@@ -306,7 +306,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
                                             }
                                         });
 
-                                        //verschiebt die Kachel nach rechts
+                                        //vmoves tile to the right
                                         Button move_right = (Button) change_function_dialog.findViewById(R.id.move_right);
                                         move_right.setOnClickListener(new View.OnClickListener() {
                                             @Override
@@ -329,7 +329,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
 
                                     }
                                 });
-                        contextMenu.add(0, DELETE_ID, 0, "Löschen")
+                        contextMenu.add(0, DELETE_ID, 0, "Loeschen")
                                 .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                                     @Override
                                     public boolean onMenuItemClick(MenuItem item) {

@@ -48,6 +48,8 @@ public class Tilecolormanager {
                 usage.equals("pi")||
                 usage.equals("y")||
                 usage.equals("x")||
+                usage.equals("[au]")||
+
                 usage.equals("electronm")||
                 usage.equals("electronc")||
                 usage.equals("[g]")||
