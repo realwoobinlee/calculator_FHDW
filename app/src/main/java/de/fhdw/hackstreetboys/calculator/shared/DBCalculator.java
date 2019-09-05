@@ -104,6 +104,7 @@ public class DBCalculator extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         String sqlStatementHistory = "insert into " + HISTORY_TABLE_NAME + " values('"
                 + historyString + "','" + resultData + "')";
+        System.out.println("LOGTEXT SAVE: " + sqlStatementHistory);
         db.execSQL(sqlStatementHistory);
 
         db.close();

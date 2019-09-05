@@ -111,7 +111,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
                     }else {
                         CalcResult = EvalService.calculateEquation(CalcList);
                     };
-                } else if ( tempValue != "=" && tempValue != "") {
+                } else if (tempValue != "=" && tempValue != "" && CalcResult == "") {
                     CalcList.add(tempValue); // when the tile is neither = nor empty, the tile value will be added in to the list
                 }
             }
