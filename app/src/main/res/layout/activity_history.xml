@@ -10,7 +10,7 @@
         layout="@layout/toolbar"/>
 
     <ListView
-        android:id="@+id/display_history"
+        android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar"
