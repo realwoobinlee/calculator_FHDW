@@ -18,8 +18,6 @@ public class DBCalculator extends SQLiteOpenHelper {
 
     // tables data
     public static final String LAYOUT_TABLE_NAME = "layout";
-
-
     public static final String HISTORY_TABLE_NAME = "history";
 
 
