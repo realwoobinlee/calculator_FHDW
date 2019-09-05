@@ -80,7 +80,8 @@ public class DBCalculator extends SQLiteOpenHelper {
         //System.out.println("LOGTEXT DATABASE =" + "Select *  from " + LAYOUT_TABLE_NAME);
         if (cursor.getCount() > 0) {
             while(cursor.moveToNext()) {
-                String[] tempElem = {cursor.getString(1),cursor.getString(2),cursor.getString(3)};
+                String[] tempElem = {cursor.getString(1),cursor.getString(2),
+                        cursor.getString(3)};
                 dataList.add(tempElem);
             }
         }
