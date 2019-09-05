@@ -18,14 +18,10 @@ public class DBCalculator extends SQLiteOpenHelper {
 
     // tables data
     public static final String LAYOUT_TABLE_NAME = "layout";
-    public static final String LAYOUT_COLUMN_POS = "position";
-    public static final String LAYOUT_COLUMN_WIDTH = "width";
-    public static final String LAYOUT_COLUMN_HEIGHT = "height";
-    public static final String LAYOUT_COLUMN_VALUE = "value";
+
 
     public static final String HISTORY_TABLE_NAME = "history";
-    public static final String HISTORY_COLUMN_TERM = "term";
-    public static final String HISTORY_COLUMN_RESULT = "result";
+
 
     //sql statements to create tables in the database
     static final String DATABASE_LAYOUT_CREATE = "create table if not exists layout(position String primary key , " +
