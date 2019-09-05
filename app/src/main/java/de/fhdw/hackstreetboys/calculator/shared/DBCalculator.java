@@ -13,7 +13,6 @@ import java.util.List;
 public class DBCalculator extends SQLiteOpenHelper {
 
     //database data
-    public static final String DATABASE_NAME = "DB.db";
     private static final int DATABASE_VERSION = 1;
 
     // tables data
