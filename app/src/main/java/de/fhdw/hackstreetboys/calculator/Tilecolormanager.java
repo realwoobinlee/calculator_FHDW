@@ -1,6 +1,6 @@
 package de.fhdw.hackstreetboys.calculator;
 
-
+//created by Daniel Hermsen
 public class Tilecolormanager {
 
     public static int returncolor(String usage){

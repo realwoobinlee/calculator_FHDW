@@ -116,7 +116,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
                 }
             }
         });
-        // SetOnLongClickListener
+        // SetOnLongClickListener created by Daniel Hermsen
         recyclerViewHolder.mButton.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(final View longclickview) {
@@ -329,6 +329,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
 
                                     }
                                 });
+                        //deletes Tile
                         contextMenu.add(0, DELETE_ID, 0, "Loeschen")
                                 .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                                     @Override
@@ -340,6 +341,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
                                         return false;
                                     }
                                 });
+                        //adds Tile
                         contextMenu.add(0, RESET_ID, 0, "Neue Kachel")
                                 .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                                     @Override
