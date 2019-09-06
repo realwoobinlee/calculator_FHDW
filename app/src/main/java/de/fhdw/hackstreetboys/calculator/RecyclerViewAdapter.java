@@ -205,7 +205,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
                                     return false;
                                 }
                             });
-                        contextMenu.add(0, CHANGE_SIZE_ID,0 , "Größe aendern")
+                        contextMenu.add(0, CHANGE_SIZE_ID,0 , "Groeße aendern")
                                 .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                                     @Override
                                     public boolean onMenuItemClick(MenuItem item) {
