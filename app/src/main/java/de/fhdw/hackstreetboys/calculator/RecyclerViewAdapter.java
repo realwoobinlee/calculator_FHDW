@@ -17,9 +17,9 @@ import java.util.List;
 
 import de.fhdw.hackstreetboys.calculator.shared.DBCalculator;
 import de.fhdw.hackstreetboys.calculator.shared.EvalService;
-
+// WOOBIN LEE
+// MATR.NR. 9715750
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
-
     private static int TYPE_NORMALCARD = 0;
 
     public static final int CHANGE_FUNCTION_ID = 1000;

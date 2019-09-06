@@ -15,9 +15,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import kotlin.jvm.functions.Function1;
-
+// WOOBIN LEE
+// MATR.NR. 9715750
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
     RecyclerView mRecyclerView; // RecyclerView which will be integrated with spanned grid layout manager
     RecyclerViewAdapter recyclerViewAdapter; // recyclerViewAdapter where all the Tile functions are stored
     SpannedGridLayoutManager spannedGridLayoutManager; // Manager for spannedGridLayout

@@ -4,6 +4,8 @@ import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+// WOOBIN LEE
+// MATR.NR. 9715750
 public class SpaceItemDecorator extends RecyclerView.ItemDecoration {
 
     private int Left, Top, Right, Bottom;
