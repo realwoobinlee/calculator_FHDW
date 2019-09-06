@@ -1,6 +1,6 @@
 package de.fhdw.hackstreetboys.calculator.shared;
 
-
+//author: Jan Neumann
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
